@@ -1,4 +1,4 @@
-# soundle
+# extinct-sounds
 Wordle-like website where you guess the "extinct" sound
 
 

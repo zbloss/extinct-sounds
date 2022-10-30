@@ -23,7 +23,7 @@ const Navbar = ({loggedInParams, logInClicked}) => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-                <h1>Soundle</h1>
+                <h1>extinct-sounds</h1>
             </Grid>
             <Grid item xs={12} sm={6}>
                 {ethAddress === undefined ?
