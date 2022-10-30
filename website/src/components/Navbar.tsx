@@ -12,6 +12,7 @@ const Navbar = ({loggedInParams, logInClicked}) => {
 
         logInClicked(true);
         const logInObjects = await LogIn();
+        // @ts-ignore
         setEthAddress(logInObjects[2]);
         if (logInObjects[0] !== undefined && 
             logInObjects[1] !== undefined &&

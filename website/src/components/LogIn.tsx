@@ -3,16 +3,21 @@ import ChainId from "../constants/ChainId";
 import SwitchNetwork from "./SwitchNetwork";
 
 const LogIn = async () => {
-    let env = process.env["INFURA_API_KEY"];
+    
+    const url = `https://goerli.infura.io/v3/${process.env.REACT_APP_INFURA_API_KEY}`
+    console.log("url:", url);
 
-    // const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const provider = new ethers.providers.InfuraProvider(
-        "goerli", env
-    )
-    console.log("provider:", provider)
+    //const provider = new ethers.providers.JsonRpcProvider(url)
 
-    // const signer = await provider.getSigner()
-    // console.log("signer:", signer)
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // const provider = new ethers.providers.InfuraProvider(
+    //     "goerli", 
+    //     "2b16ea43114d46f1aea7b677a52abd4f"
+    // )
+    console.log("provider:", provider, provider.connection)
+
+    const signer = await provider.getSigner()
+    console.log("signer:", signer, signer._address)
 
     const network = await provider.getNetwork()
     console.log("network:", network);
@@ -25,6 +30,8 @@ const LogIn = async () => {
         await SwitchNetwork(ChainId())
     }
     
+    // const addresses = await provider.listAccounts()
+
     const addresses = await provider.send("eth_requestAccounts", []);
     console.log("addresses:", addresses)
 
