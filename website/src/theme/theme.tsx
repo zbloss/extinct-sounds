@@ -13,7 +13,7 @@ const themeOptions: ThemeOptions = {
   typography: {
     // @ts-ignore
     fontFamily: ["Inter"],
-    fontSize: 18,
+    fontSize: 14,
   },
 
 };
