@@ -1,0 +1,40 @@
+name: Update extinct-sounds.com
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+    
+  build:
+
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 16.18.0
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.18.0
+        cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
+    - run: cd website
+    - run: npm ci
+    # - run: echo "REACT_APP_NFT_STORAGE_KEY=${{ secrets.REACT_APP_NFT_STORAGE_KEY }}" >> .env
+    # - run: echo "REACT_APP_INFURA_IPFS_PROJECT_ID=${{ secrets.REACT_APP_INFURA_IPFS_PROJECT_ID }}" >> .env
+    # - run: echo "REACT_APP_INFURA_IPFS_PROJECT_SECRET=${{ secrets.REACT_APP_INFURA_IPFS_PROJECT_SECRET }}" >> .env
+    - run: CI=false npm run build
+    - name: Assume IAM Role
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+    - run: aws s3 sync build/ s3://extinct-sounds
+
+    # - name: Assume IAM Role
+    #   uses: aws-actions/configure-aws-credentials@v1
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws-region: us-east-1
+    # - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
