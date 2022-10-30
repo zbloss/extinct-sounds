@@ -8,12 +8,6 @@ const Home = ({ethAddress, ensName, clickedLogIn}) => {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    console.log("ethAddress:", ethAddress)
-    console.log("ensName:", ensName)
-    console.log("clickedLogIn:", clickedLogIn)
-    console.log("isLoading:", isLoading)
-    
-
     useEffect(() => {
         if (ethAddress === undefined && clickedLogIn === true) {
             setIsLoading(true);
