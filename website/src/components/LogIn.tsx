@@ -18,11 +18,12 @@ const LogIn = async () => {
     console.log("addresses:", addresses)
 
     try {
+        console.log("trying to get ensName")
         const ensName = await provider.lookupAddress(addresses[0]);
         console.log("ensName:", ensName)
-
         return [provider, addresses[0], ensName]
     } catch (error: any) {
+        console.log("could not get ensname:", error)
         return [provider, addresses[0], undefined]
     }
 }
