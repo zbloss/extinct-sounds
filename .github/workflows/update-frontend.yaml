@@ -23,10 +23,7 @@ jobs:
     - name: CI Step
       run: npm ci
       working-directory: ./website
-
-    # - run: echo "REACT_APP_NFT_STORAGE_KEY=${{ secrets.REACT_APP_NFT_STORAGE_KEY }}" >> .env
-    # - run: echo "REACT_APP_INFURA_IPFS_PROJECT_ID=${{ secrets.REACT_APP_INFURA_IPFS_PROJECT_ID }}" >> .env
-    # - run: echo "REACT_APP_INFURA_IPFS_PROJECT_SECRET=${{ secrets.REACT_APP_INFURA_IPFS_PROJECT_SECRET }}" >> .env
+      
     - name: Build Production
       run: CI=false npm run build
       working-directory: ./website
@@ -42,10 +39,10 @@ jobs:
       run: aws s3 sync build/ s3://extinct-sounds
       working-directory: ./website
 
-    # - name: Assume IAM Role
-    #   uses: aws-actions/configure-aws-credentials@v1
-    #   with:
-    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     aws-region: us-east-1
-    # - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+    - name: Assume IAM Role
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
