@@ -1,43 +1,56 @@
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
-import Navbar from './components/Navbar';
+import Appbar from './components/Appbar';
 import Home from './pages/Home';
 import { Route, Routes } from "react-router-dom";
 import Error from './pages/Error';
-
-import './App.css';
+import { useAccount, Web3Modal, useEnsName, useEnsAvatar, useBalance } from '@web3modal/react'
+import ShortenString from './components/ShortenString';
 
 function App() {
 
-  const [ethProvider, setEthProvider] = useState<ethers.providers.Web3Provider | undefined>();
-  const [ethAddress, setEthAddress] = useState<string | undefined>();
-  const [ensName, setEnsName] = useState<string | undefined | null>();
-  const [clickedLogIn, setClickedLogIn] = useState<boolean>(false);
+  const [formattedBalance, setFormattedBalance] = useState<string | undefined>();
 
-  const loggedInParams = async (logindata: any) => {
-
-    setEthProvider(logindata[0]);
-    setEthAddress(logindata[1]);
-    setEnsName(logindata[2]);
-
+  const config = {
+      projectId: process.env["REACT_APP_WALLET_CONNECT_PROJECT_ID"],
+      theme: 'dark',
+      accentColor: 'default',
+      ethereum: {
+        appName: 'extinct-sounds'
+      }
   }
 
-  const logInClicked = async (clicked: any) => {
-    setClickedLogIn(clicked)
+  const { account } = useAccount()
+  const { data: ensName } = useEnsName({
+      // @ts-ignore
+      address: account.address
+  })
+
+  const { data: ensAvatar } = useEnsAvatar({
+    addressOrName: account.address
+  })
+
+  const { data: ethBalance, error: ethBalanceError } = useBalance({
+    addressOrName: account.address
+  })
+
+  if (ethBalance !== undefined && !ethBalanceError && formattedBalance === undefined) { 
+    if (ethBalance.hasOwnProperty("formatted")) {
+        setFormattedBalance(`${parseFloat(ethBalance.formatted).toFixed(5)} ${ethers.constants.EtherSymbol}`)
+    }
   }
 
   return (
     <div className="App">
-      <Navbar loggedInParams={loggedInParams} logInClicked={logInClicked} />
+      {/* @ts-ignore */}
+      <Web3Modal config={config} />
+
+        {/* @ts-ignore */}
+      <Appbar avatar={ensAvatar} balance={formattedBalance} address={ensName ? ensName : ShortenString(account.address)} />
 
       <Routes>
-        <Route path="/" element={
-          <Home 
-            ethAddress={ethAddress} 
-            ensName={ensName} 
-            clickedLogIn={clickedLogIn}
-          />
-        }></Route>
+        {/* @ts-ignore */}
+        <Route path="/" element={<Home address={ensName ? ensName : ShortenString(account.address)}/>}></Route>
         <Route path="*" element={<Error />}></Route>
       </Routes>    
     </div>

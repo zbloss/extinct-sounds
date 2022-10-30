@@ -5,7 +5,9 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.10.9",
+    "@mui/material": "^5.10.11",
     "@mui/system": "^5.10.10",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -14,6 +16,8 @@
     "@types/node": "^16.18.2",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
+    "@web3modal/ethereum": "^2.0.0-beta.1",
+    "@web3modal/react": "^2.0.0-beta.1",
     "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
     "react": "^18.2.0",

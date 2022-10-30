@@ -1,31 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Grid, CircularProgress } from '@mui/material';
-import ShortenString from '../components/ShortenString';
-
+import { Grid, Typography } from '@mui/material';
+import { Container } from '@mui/system';
 
 // @ts-ignore
-const Home = ({ethAddress, ensName, clickedLogIn}) => {
+const Home = ({address}) => {
 
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-
-    useEffect(() => {
-        if (ethAddress === undefined && clickedLogIn === true) {
-            setIsLoading(true);
-        } else {
-            setIsLoading(false);
-        }
-    }, [ethAddress, ensName, clickedLogIn]);
-
-    const returnedObject = isLoading ? <CircularProgress /> : 
-        <Grid container spacing={2}>
-            {ethAddress ?
+    return (
+        <Container maxWidth="md">
+            <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <h1>Welcome <span className='text-secondary'>{ensName ? ensName : ShortenString(ethAddress)}!</span></h1>
+                    <Typography sx={{ mt: 6 }} variant="h4" color="primary">Welcome {address}!</Typography>
                 </Grid>
-                : <></>
-            }
-        </Grid>
-        
-    return returnedObject
+            </Grid>
+
+        </Container>
+    )
 }
 export default Home;
