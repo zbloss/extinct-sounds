@@ -23,9 +23,9 @@ jobs:
     - name: CI Step
       run: npm ci
       working-directory: ./website
-      
+
     - name: Build Production
-      run: CI=false npm run build
+      run: CI=false REACT_APP_WALLET_CONNECT_PROJECT_ID=${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }} npm run build
       working-directory: ./website
 
     - name: Assume IAM User
