@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import { Route, Routes } from "react-router-dom";
+import Error from './pages/Error';
 
 import './App.css';
 
@@ -37,7 +38,7 @@ function App() {
             clickedLogIn={clickedLogIn}
           />
         }></Route>
-
+        <Route path="*" element={<Error />}></Route>
       </Routes>    
     </div>
   );
