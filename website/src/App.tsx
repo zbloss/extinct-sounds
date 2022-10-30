@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -14,6 +14,7 @@ function App() {
   const [clickedLogIn, setClickedLogIn] = useState<boolean>(false);
 
   const loggedInParams = async (logindata: any) => {
+
     setEthProvider(logindata[0]);
     setEthAddress(logindata[1]);
     setEnsName(logindata[2]);

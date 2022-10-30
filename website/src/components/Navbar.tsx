@@ -13,14 +13,13 @@ const Navbar = ({loggedInParams, logInClicked}) => {
         logInClicked(true);
         const logInObjects = await LogIn();
         setEthAddress(logInObjects[2]);
-
         if (logInObjects[0] !== undefined && 
             logInObjects[1] !== undefined &&
             logInObjects[2] !== undefined) {
                 loggedInParams(logInObjects);
             }
     }
-    
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
