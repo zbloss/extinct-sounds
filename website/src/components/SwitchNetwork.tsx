@@ -16,12 +16,10 @@ const SwitchNetwork = async (chainId: number) => {
         await switchChain(chain)
 
     } catch (error: any) {
-        console.log("error:", error)
         // This error code indicates that the chain has not been added to MetaMask
         // if it is not, then install it into the user MetaMask
         if (error.code === 4902) {
           try {
-            console.log("adding chain")
             await window.ethereum.request({
               method: 'wallet_addEthereumChain',
               params: [
@@ -34,10 +32,10 @@ const SwitchNetwork = async (chainId: number) => {
             await switchChain(chain);
 
           } catch (addError) {
-            console.error("catch error:", addError);
+            console.error(addError);
           }
         }
-        console.error("console.error:", error);
+        console.error(error);
     }    
 }
 
