@@ -3,12 +3,16 @@ import ChainId from "../constants/ChainId";
 import SwitchNetwork from "./SwitchNetwork";
 
 const LogIn = async () => {
+    let env = process.env["INFURA_API_KEY"];
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.providers.InfuraProvider(
+        "goerli", env
+    )
     console.log("provider:", provider)
 
-    const signer = await provider.getSigner()
-    console.log("signer:", signer)
+    // const signer = await provider.getSigner()
+    // console.log("signer:", signer)
 
     const network = await provider.getNetwork()
     console.log("network:", network);
