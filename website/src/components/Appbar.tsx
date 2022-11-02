@@ -13,6 +13,7 @@ import { Web3Button } from '@web3modal/react';
 
 // @ts-ignore
 function Appbar({avatar, balance, address}) {
+  
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -70,38 +71,42 @@ function Appbar({avatar, balance, address}) {
           </Box>
           <Box sx={{flexGrow: 0, padding: '10px'}}>
 
-          <Web3Button /> 
+            <Web3Button /> 
+
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Ens Avatar" src={avatar} />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-                <MenuItem key="address" onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Address: {address ? address : "Error"}</Typography>
-                </MenuItem>
-                <MenuItem key="balance" onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Balance: {balance ? balance : "Error"}</Typography>
-                </MenuItem>
-            </Menu>
-          </Box>
+          {address.length > 0 ? 
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Ens Avatar" src={avatar} />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                  <MenuItem key="address" onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">Address: {address ? address : "Error"}</Typography>
+                  </MenuItem>
+                  <MenuItem key="balance" onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">Balance: {balance ? balance : "Error"}</Typography>
+                  </MenuItem>
+              </Menu>
+            </Box>
+            : <></>
+          }
 
         </Toolbar>
       </Container>
