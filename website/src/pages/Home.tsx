@@ -31,13 +31,12 @@ const Home = ({address}) => {
         )
     }
 
-
     return (
         <Container maxWidth="md">
             <Grid container spacing={2} sx={{ mt: 2 }}>  
 
                 <Grid item xs={12} sx={{ mt: 2 }}>
-                    <SoundCard />
+                    <SoundCard imageUrl={"/assets/images/mac_miller.png"}/>
                 </Grid>
 
                 <Grid item xs={12} sm={2}></Grid>
