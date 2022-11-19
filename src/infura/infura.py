@@ -40,7 +40,7 @@ class Infura:
         _, filename = os.path.split(filepath)
         return filename
 
-    def upload_file(self, filepath: str) -> InfuraResponse:
+    def upload_file(self, filepath: str, as_bytes: bool = False) -> InfuraResponse:
         """
         Given a path to a file, this uploads that
         file to IPFS via Infura and returns the
@@ -48,6 +48,7 @@ class Infura:
 
         Arguments:
             filepath (str): Path to the file you want to upload.
+            as_bytes (bool): Read the file as bytes, `rb`.
 
         Returns:
             InfuraResponse: Contains the Name, Hash, and Size of
@@ -57,7 +58,7 @@ class Infura:
 
         assert os.path.isfile(filepath), f"Filepath provided does not exist: {filepath}"
 
-        with open(filepath, "r") as f:
+        with open(filepath, "rb" if as_bytes else "r") as f:
             file = f.read()
             f.close()
 

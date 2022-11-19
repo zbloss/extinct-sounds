@@ -107,3 +107,5 @@ dist
 .gitignore
 artifacts/
 notebooks/.ipynb_checkpoints/
+.metaflow
+.hypothesis/unicode_data/12.1.0/charmap.json.gz

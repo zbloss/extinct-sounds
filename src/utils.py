@@ -1,4 +1,6 @@
+import json
 import time
+from typing import Union
 
 from brownie import Contract, accounts, config, network, web3
 from web3 import Web3
@@ -10,6 +12,58 @@ LOCAL_BLOCKCHAIN_ENVIRONMENTS = NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS + [
     "matic-fork",
 ]
 OPENSEA_TESTNET_URL = "https://testnets.opensea.io/assets"
+
+
+def read_file(
+    filepath: str, as_json: bool = True, as_bytes: bool = False
+) -> Union[str, dict]:
+    """
+    Simple helper function to read files.
+
+    Arguments:
+        filepath (str): File you want to open.
+        as_json (bool): If you want to read the file as
+                        json then True else False.
+        as_bytes (bool): Read the file as bytes, `rb`.
+
+    Returns:
+        Union[str, dict]: String if as_json==False else Dict.
+
+    """
+
+    with open(filepath, "rb" if as_bytes else "r") as f:
+        contents = f.read()
+        if as_json:
+            contents = json.loads(contents)
+
+        f.close()
+
+    return contents
+
+
+def write_file(
+    contents: str,
+    filepath: str,
+    as_bytes: bool = False,
+) -> bool:
+    """
+    Simple helper function to write files.
+
+    Arguments:
+        contents (str): Contents to write to `filepath`.
+        filepath (str): File you want to write to.
+        as_bytes (bool): Write the file as bytes, `wb`.
+
+    Returns:
+        bool: True if successful else False.
+    """
+    success = False
+    with open(filepath, "wb" if as_bytes else "w", encoding="utf-8") as f:
+        f.write(contents)
+        success = True
+        f.close()
+
+    return success
 
 
 class Utils:
