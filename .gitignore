@@ -103,3 +103,9 @@ dist
 # TernJS port file
 .tern-port
 .env
+.DS_Store
+.gitignore
+artifacts/
+notebooks/.ipynb_checkpoints/
+.metaflow
+.hypothesis/unicode_data/12.1.0/charmap.json.gz

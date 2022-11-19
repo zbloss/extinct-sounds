@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
-import Appbar from './components/Appbar';
-import Home from './pages/Home';
 import { Route, Routes } from "react-router-dom";
-import Error from './pages/Error';
 import { useAccount, Web3Modal, useEnsName, useEnsAvatar, useBalance } from '@web3modal/react'
+
+import Home from './pages/Home';
+import Error from './pages/Error';
+import Appbar from './components/Appbar';
 import ShortenString from './components/ShortenString';
 
 function App() {
