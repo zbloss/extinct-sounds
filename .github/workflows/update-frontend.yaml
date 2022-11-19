@@ -20,9 +20,9 @@ jobs:
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
 
-    - name: CI Step
-      run: npm ci
-      working-directory: ./website
+    # - name: CI Step
+    #   run: npm ci
+    #   working-directory: ./website
 
     - name: Build Production
       run: CI=false REACT_APP_WALLET_CONNECT_PROJECT_ID=${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }} npm run build
