@@ -36,7 +36,9 @@ class Infura:
             str: Filename.
 
         """
-        assert os.path.isfile(filepath), f"Filepath is not valid: {filepath}"
+
+        if not os.path.isfile(filepath):
+            return None
         _, filename = os.path.split(filepath)
         return filename
 
@@ -56,23 +58,26 @@ class Infura:
 
         """
 
-        assert os.path.isfile(filepath), f"Filepath provided does not exist: {filepath}"
+        # if not os.path.isfile(filepath):
+        #     return None
+        try:
+            with open(filepath, "rb" if as_bytes else "r") as f:
+                file = f.read()
+                f.close()
 
-        with open(filepath, "rb" if as_bytes else "r") as f:
-            file = f.read()
-            f.close()
+            filename = self.__extract_filename(filepath)
 
-        filename = self.__extract_filename(filepath)
+            response = requests.post(
+                self.infura_api_add_endpoint,
+                files={filename: file},
+                auth=self.requests_auth,
+            )
 
-        response = requests.post(
-            self.infura_api_add_endpoint,
-            files={filename: file},
-            auth=self.requests_auth,
-        )
-
-        if response.status_code == 200:
-            json_response = json.loads(response.content.decode())
-            return InfuraResponse(**json_response)
+            if response.status_code == 200:
+                json_response = json.loads(response.content.decode())
+                return InfuraResponse(**json_response)
+        except:
+            return None
 
     def download_file(self, ipfs_cid: str) -> str:
         """

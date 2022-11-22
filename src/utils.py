@@ -1,8 +1,10 @@
+import os
 import json
 import time
 from typing import Union
 
 from brownie import Contract, accounts, config, network, web3
+from brownie.network import priority_fee
 from web3 import Web3
 
 NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["hardhat", "development", "ganache"]
@@ -152,3 +154,18 @@ class Utils:
                     f"brownie run scripts/deploy_mocks.py --network {self.active_network}"
                 )
         return contract
+
+    def get_artifacts(self):
+        with open(config["artifacts"], "r") as f:
+            artifacts = json.loads(f.read())
+            f.close()
+        return artifacts
+
+    @staticmethod
+    def get_publish_source():
+        if network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS or not os.getenv(
+            "ETHERSCAN_TOKEN"
+        ):
+            return False
+        else:
+            return True

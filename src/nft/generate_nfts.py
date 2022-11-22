@@ -8,6 +8,7 @@ sys.path.append(str(package_root_directory))
 
 from metaflow import FlowSpec, Parameter, step
 
+import time
 from src.infura.infura import Infura
 from src.nft.animate import add_drawing_animation
 from src.nft.metadata_schema import Attribute, Metadata
@@ -144,24 +145,39 @@ class GenerateNFTs(FlowSpec):
                 audio_response = self.infura.upload_file(meta["audio"], as_bytes=True)
                 video_response = self.infura.upload_file(meta["video"], as_bytes=True)
 
-                image_cid = image_response.Hash
-                audio_cid = audio_response.Hash
-                video_cid = video_response.Hash
+                if image_response is None:
+                    time.sleep(3)
+                    image_response = self.infura.upload_file(meta["image"], as_bytes=True)
 
-                metadata = [
-                    Metadata(
-                        name=meta["name"],
-                        description=meta["description"],
-                        image=f"ipfs://{image_cid}",
-                        audio=f"ipfs://{audio_cid}",
-                        attributes=[Attribute(trait_type="guesses", value=guess)],
-                        external_url=f"ipfs://{video_cid}",
-                        author=author,
-                        info=info_description
-                    ).dict()
-                    for guess in range(1, 7)
-                ]
-                all_metadata[nft_id] = metadata
+                if audio_response is None:
+                    time.sleep(3)
+                    audio_response = self.infura.upload_file(meta["audio"], as_bytes=True)
+
+                if video_response is None:
+                    time.sleep(3)
+                    video_response = self.infura.upload_file(meta["video"], as_bytes=True)
+
+                try:
+                    image_cid = image_response.Hash
+                    audio_cid = audio_response.Hash
+                    video_cid = video_response.Hash
+
+                    metadata = [
+                        Metadata(
+                            name=meta["name"],
+                            description=meta["description"],
+                            image=f"ipfs://{image_cid}",
+                            audio=f"ipfs://{audio_cid}",
+                            attributes=[Attribute(trait_type="guesses", value=guess)],
+                            external_url=f"ipfs://{video_cid}",
+                            author=author,
+                            info=info_description,
+                        ).dict()
+                        for guess in range(1, 7)
+                    ]
+                    all_metadata[nft_id] = metadata
+                except:
+                    pass
 
         self.metadata = all_metadata
         self.next(self.upload_nfts)

@@ -12,6 +12,7 @@ def add_drawing_animation(
     audio: str,
     output_file: str,
     output_fps: int = 60,
+    max_length_in_seconds: int = 60
 ):
     """
     Given an image and an audio clip, this
@@ -28,14 +29,20 @@ def add_drawing_animation(
                            store the resulting video.
         output_fps (int): The frames-per-second to render
                           the `output_file` with.
+        max_length_in_seconds (int): The maximum length of
+                                     the final video.
 
     Returns:
         str: Returns `output_file`.
 
     """
 
-    assert os.path.isfile(image), f"Image provided does not exist: {image}"
-    assert os.path.isfile(audio), f"Audio provided does not exist: {audio}"
+    if not os.path.isfile(image):
+        return None
+
+    if not os.path.isfile(audio):
+        return None
+
     output_directory, output_filename = os.path.split(output_file)
     if not os.path.isdir(output_directory):
         os.makedirs(output_directory)
@@ -79,6 +86,10 @@ def add_drawing_animation(
 
     looped_video = loop(joined_video_clips, duration=audio_clip.duration)
     looped_video = looped_video.set_audio(audio_clip)
+
+    if looped_video.duration > max_length_in_seconds:
+        looped_video = looped_video.subclip(0, max_length_in_seconds)
+
     looped_video.write_videofile(output_file)
 
     return output_file

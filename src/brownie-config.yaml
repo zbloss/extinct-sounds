@@ -1,0 +1,16 @@
+dependencies:
+  - OpenZeppelin/openzeppelin-contracts@4.8.0
+compiler:
+  solc:
+    remappings:
+      - '@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.8.0'
+
+# automatically fetch contract sources from Etherscan
+autofetch_sources: True
+dotenv: .env
+networks:
+  default: development
+wallets:
+  from_key: ${PRIVATE_KEY}
+artifacts: /Users/zbloss/Projects/extinct-sounds/artifacts/nfts.json
+

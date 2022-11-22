@@ -1,24 +1,29 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 
 /// @custom:security-contact zacharybloss@gmail.com
 contract ExtinctSounds is ERC721, ERC721URIStorage, Ownable {
-    using Counters for Counters.Counter;
 
-    Counters.Counter private _tokenIdCounter;
+    uint256 public tokenCounter;
+    bool public initialized = false;
 
-    constructor() ERC721("ExtinctSounds", "EXS") {}
+    event NFTMinted(address _to, string _tokenMetadata, uint256 _tokenId);
+
+    constructor() ERC721("ExtinctSounds", "EXS") {
+        tokenCounter = 0;
+    }
 
     function safeMint(address to, string memory uri) public onlyOwner {
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
+        uint256 tokenId = tokenCounter;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
+        tokenCounter = tokenCounter + 1;
+        emit NFTMinted(msg.sender, uri, tokenId);
+
     }
 
     // The following functions are overrides required by Solidity.
