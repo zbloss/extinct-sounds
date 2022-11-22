@@ -152,10 +152,10 @@ class GenerateNFTs(FlowSpec):
                     Metadata(
                         name=meta["name"],
                         description=meta["description"],
-                        image=f"https://ipfs.io/ipfs/{image_cid}",
-                        audio=f"https://ipfs.io/ipfs/{audio_cid}",
+                        image=f"ipfs://{image_cid}",
+                        audio=f"ipfs://{audio_cid}",
                         attributes=[Attribute(trait_type="guesses", value=guess)],
-                        external_url=f"https://ipfs.io/ipfs/{video_cid}",
+                        external_url=f"ipfs://{video_cid}",
                         author=author,
                         info=info_description
                     ).dict()
@@ -187,7 +187,7 @@ class GenerateNFTs(FlowSpec):
                 )
                 upload_response = self.infura.upload_file(nft_filepath)
                 ipfs_cid = upload_response.Hash
-                ipfs_uri = f"https://ipfs.io/ipfs/{ipfs_cid}"
+                ipfs_uri = f"ipfs://{ipfs_cid}"
 
                 if not nft_id in mapping:
                     mapping[nft_id] = {}
