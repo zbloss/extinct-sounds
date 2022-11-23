@@ -6,3 +6,4 @@ def main():
     account = utils.get_account()
     print(utils.active_network)
     ExtinctSounds.deploy({"from": account}, publish_source=utils.get_publish_source())
+    

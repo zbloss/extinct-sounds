@@ -12,6 +12,8 @@ function App() {
 
   const [formattedBalance, setFormattedBalance] = useState<string | undefined>();
 
+  const { account } = useAccount()
+
   const config = {
       projectId: process.env["REACT_APP_WALLET_CONNECT_PROJECT_ID"],
       theme: 'dark',
@@ -21,7 +23,6 @@ function App() {
       }
   }
 
-  const { account } = useAccount()
   const { data: ensName } = useEnsName({
       // @ts-ignore
       address: account.address
@@ -42,6 +43,7 @@ function App() {
   }
 
   return (
+    
     <div className="App">
       {/* @ts-ignore */}
       <Web3Modal config={config} />

@@ -3,11 +3,15 @@ import { Grid, Typography, Card, CardContent, CardActions, Button } from '@mui/m
 import { Container, Box } from '@mui/system';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import SoundCard from '../components/SoundCard';
+import ExtinctSoundsContract from '../components/ExtinctSoundsContract';
+import InfuraProvider from '../components/InfuraProvider';
+import GetTokenMetadata from '../components/GetTokenMetadata';
 
 // @ts-ignore
 const Home = ({address}) => {
 
     const [showDetails, setShowDetails] = useState<boolean>(false);
+    const [tokenMetadata, setTokenMetadata] = useState<string | undefined>();
 
     const showDetailsButton = () => {
         return (
@@ -30,6 +34,16 @@ const Home = ({address}) => {
             </Button>
         )
     }
+
+    const provider = InfuraProvider();
+    const contract = ExtinctSoundsContract(provider);
+
+    const fetchTokenMetadata = async () => {
+        let metadata = await GetTokenMetadata(3)
+        setTokenMetadata(metadata)
+    }
+
+    console.log("tokenMetadata:", tokenMetadata)
 
     return (
         <Container maxWidth="md">
@@ -60,6 +74,11 @@ const Home = ({address}) => {
                     </Card>
                 </Grid>
                 <Grid item xs={12} sm={2}></Grid>
+                <Grid item xs={12}>
+                    <Button onClick={() => {fetchTokenMetadata()}}>
+                        Get Token Details
+                    </Button>
+                </Grid>
             </Grid>
 
         </Container>
