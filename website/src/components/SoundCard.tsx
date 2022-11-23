@@ -65,7 +65,7 @@ const SoundCard = ({imageUrl}) => {
             alignItems="center"
         >
             <Grid item xs={12}>
-                <Card sx={{ direction: "column", alignItems: "center" }}>
+                <Card sx={{ direction: "column", alignItems: "center", minWidth: 300 }}>
                     <Box >
                         {imageUrl === undefined || imageUrl === null ? 
                             <LoadingBar /> :     
