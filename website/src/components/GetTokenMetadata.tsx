@@ -18,15 +18,18 @@ const GetTokenMetadata = async (tokenId: number) => {
         const ipfsURL = URL + hash
         return ipfsURL
     }
-    
+
     const tokenIpfsUriProxied = addIPFSProxy(tokenIpfsUri)
     const response = await fetch(tokenIpfsUriProxied)
     const ipfsContent = await response.json()
 
     const animation = addIPFSProxy(ipfsContent.animation_url)  
-    
+    console.log(ipfsContent)
     return {
         "content": ipfsContent,
+        "name": ipfsContent.name,
+        "description": ipfsContent.description,
+        "info": ipfsContent.info,
         "animation_url": animation
     }
 }

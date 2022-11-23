@@ -11,8 +11,9 @@ import { Grid, TextField } from '@mui/material';
 import LoadingBar from './LoadingBar';
 
 // @ts-ignore
-const SoundCard = ({imageUrl}) => {
-    console.log("imageUrl:", imageUrl)
+const SoundCard = (params) => {
+    const imageUrl = params.imageUrl
+    const metadata = params.metadata
 
     const [guesses, setGuesses] = useState([]);
     const [guess, setGuess] = useState<string>('');
@@ -111,7 +112,14 @@ const SoundCard = ({imageUrl}) => {
                                     </Grid>
                                 )
                             })}
-
+                            <Grid item xs={12}>
+                                <Typography variant="h5">
+                                    {metadata ? metadata.name : <></>}
+                                </Typography>
+                                <Typography variant="body2">
+                                    {metadata ? metadata.description : <></>}
+                                </Typography>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Card>

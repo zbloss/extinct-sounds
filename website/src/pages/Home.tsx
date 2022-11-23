@@ -51,7 +51,7 @@ const Home = ({address}) => {
             <Grid container spacing={2} sx={{ mt: 2 }}>  
 
                 <Grid item xs={12} sx={{ mt: 2 }}>
-                    <SoundCard imageUrl={animationUrl}/>
+                    <SoundCard imageUrl={animationUrl} metadata={tokenMetadata} />
                 </Grid>
 
                 <Grid item xs={12} sm={2}></Grid>
