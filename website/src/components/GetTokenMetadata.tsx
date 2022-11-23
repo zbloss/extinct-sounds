@@ -16,15 +16,18 @@ const GetTokenMetadata = async (tokenId: number) => {
         const URL = "https://extinct-sounds.infura-ipfs.io/ipfs/"
         const hash = ipfsHash.replace(/^ipfs?:\/\//, '')
         const ipfsURL = URL + hash
-    
-        console.log(ipfsURL)
         return ipfsURL
     }
+    
     const tokenIpfsUriProxied = addIPFSProxy(tokenIpfsUri)
-    const ipfsContent = await fetch(tokenIpfsUriProxied)
-        .then((response) => response.json())
-    console.log("ipfsContent:", ipfsContent)
+    const response = await fetch(tokenIpfsUriProxied)
+    const ipfsContent = await response.json()
 
-    return ipfsContent
+    const animation = addIPFSProxy(ipfsContent.animation_url)  
+    
+    return {
+        "content": ipfsContent,
+        "animation_url": animation
+    }
 }
 export default GetTokenMetadata;

@@ -8,14 +8,16 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Grid, TextField } from '@mui/material';
+import LoadingBar from './LoadingBar';
 
 // @ts-ignore
 const SoundCard = ({imageUrl}) => {
-
-    // const imageUrl = "https://imgs.search.brave.com/FPHR0VnYnneIffc_M8R5GjtdlQmcBQAdGSE1gBCvCjk/rs:fit:1200:1080:1/g:ce/aHR0cHM6Ly9hNC1p/bWFnZXMubXlzcGFj/ZWNkbi5jb20vaW1h/Z2VzMDQvMTAvYjRh/NDQxYzI4NzA1NDI1/Njk0ODNiOTdiY2I2/NmFhMWYvZnVsbC5q/cGc"
+    console.log("imageUrl:", imageUrl)
 
     const [guesses, setGuesses] = useState([]);
     const [guess, setGuess] = useState<string>('');
+    const [guessCorrect, setGuessCorrect] = useState<boolean>(false);
+
     const appendGuess = () => {
         if (guesses.length <= 5) {    
             // @ts-ignore
@@ -25,7 +27,36 @@ const SoundCard = ({imageUrl}) => {
         }
     }
 
+    const playAudio = () => {
+        const audioEl = document.getElementsByClassName("audio-element")[0];
+        // @ts-ignore
+        audioEl.play();
+    };
 
+    const showCardContent = (imageUrl: string) => {
+
+        return (<>
+        
+            {/* @ts-ignore */}
+            <CardMedia
+                component={guessCorrect ? "video" : "audio"}
+                sx={{ maxWidth: 600 }}
+                src={imageUrl}
+                alt="Live from space album cover"
+                className='audio-element'
+            />
+            <CardContent sx={{ display:'flex', justifyContent:'center' }}>
+                <Typography variant="h5">
+                    Play Sound  
+                    <IconButton aria-label="play/pause" onClick={playAudio}>
+                        <PlayArrowIcon sx={{ height: 38, width: 38 }}/>
+                    </IconButton>
+                </Typography>
+                
+            </CardContent>
+        </>)
+    }
+  
     return (
         <Grid
             container
@@ -36,21 +67,10 @@ const SoundCard = ({imageUrl}) => {
             <Grid item xs={12}>
                 <Card sx={{ direction: "column", alignItems: "center" }}>
                     <Box >
-                        <CardMedia
-                            component="img"
-                            sx={{ maxWidth: 600 }}
-                            image={imageUrl}
-                            alt="Live from space album cover"
-                        />
-                        <CardContent sx={{ display:'flex', justifyContent:'center' }}>
-                            <Typography variant="h5">
-                                Play Sound  
-                                <IconButton aria-label="play/pause">
-                                    <PlayArrowIcon sx={{ height: 38, width: 38 }} />
-                                </IconButton>
-                            </Typography>
-                            
-                        </CardContent>
+                        {imageUrl === undefined || imageUrl === null ? 
+                            <LoadingBar /> :     
+                            showCardContent(imageUrl)
+                        }
                         <Grid 
                             container
                             spacing={2}
@@ -80,7 +100,6 @@ const SoundCard = ({imageUrl}) => {
                                 />
                             </Grid>
                             {guesses?.map((v, index) => {
-
                                 return (
                                     <Grid item xs={12}>
                                         <TextField 

@@ -6,12 +6,14 @@ import SoundCard from '../components/SoundCard';
 import ExtinctSoundsContract from '../components/ExtinctSoundsContract';
 import InfuraProvider from '../components/InfuraProvider';
 import GetTokenMetadata from '../components/GetTokenMetadata';
+import LoadingBar from '../components/LoadingBar';
 
 // @ts-ignore
 const Home = ({address}) => {
 
     const [showDetails, setShowDetails] = useState<boolean>(false);
     const [tokenMetadata, setTokenMetadata] = useState<string | undefined>();
+    const [animationUrl, setAnimationUrl] = useState<string | undefined>();
 
     const showDetailsButton = () => {
         return (
@@ -40,17 +42,16 @@ const Home = ({address}) => {
 
     const fetchTokenMetadata = async () => {
         let metadata = await GetTokenMetadata(3)
-        setTokenMetadata(metadata)
+        setTokenMetadata(metadata.content)
+        setAnimationUrl(metadata.animation_url)
     }
-
-    console.log("tokenMetadata:", tokenMetadata)
 
     return (
         <Container maxWidth="md">
             <Grid container spacing={2} sx={{ mt: 2 }}>  
 
                 <Grid item xs={12} sx={{ mt: 2 }}>
-                    <SoundCard imageUrl={"/assets/images/mac_miller.png"}/>
+                    <SoundCard imageUrl={animationUrl}/>
                 </Grid>
 
                 <Grid item xs={12} sm={2}></Grid>
