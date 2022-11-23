@@ -3,10 +3,7 @@ import { Grid, Typography, Card, CardContent, CardActions, Button } from '@mui/m
 import { Container, Box } from '@mui/system';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import SoundCard from '../components/SoundCard';
-import ExtinctSoundsContract from '../components/ExtinctSoundsContract';
-import InfuraProvider from '../components/InfuraProvider';
 import GetTokenMetadata from '../components/GetTokenMetadata';
-import LoadingBar from '../components/LoadingBar';
 
 // @ts-ignore
 const Home = ({address}) => {
@@ -36,9 +33,6 @@ const Home = ({address}) => {
             </Button>
         )
     }
-
-    const provider = InfuraProvider();
-    const contract = ExtinctSoundsContract(provider);
 
     const fetchTokenMetadata = async () => {
         let metadata = await GetTokenMetadata(3)
