@@ -5,12 +5,7 @@ const GetTokenMetadata = async (tokenId: number) => {
 
     const provider = InfuraProvider();
     const contract = ExtinctSoundsContract(provider);
-
-    const getTokenDetails = async (tokenId: number) => {
-        return await contract.tokenURI(tokenId)
-    }
-
-    const tokenIpfsUri = await getTokenDetails(tokenId);
+    const tokenIpfsUri = await contract.tokenURI(tokenId)
 
     const addIPFSProxy = (ipfsHash: string) => {
         const URL = "https://extinct-sounds.infura-ipfs.io/ipfs/"
@@ -22,14 +17,10 @@ const GetTokenMetadata = async (tokenId: number) => {
     const tokenIpfsUriProxied = addIPFSProxy(tokenIpfsUri)
     const response = await fetch(tokenIpfsUriProxied)
     const ipfsContent = await response.json()
-
     const animation = addIPFSProxy(ipfsContent.animation_url)  
-    console.log(ipfsContent)
+
     return {
         "content": ipfsContent,
-        "name": ipfsContent.name,
-        "description": ipfsContent.description,
-        "info": ipfsContent.info,
         "animation_url": animation
     }
 }
