@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -57,6 +57,19 @@ const SoundCard = (params) => {
             </CardContent>
         </>)
     }
+
+    const checkIfGuessIsCorrect = () => {
+        if (guess && metadata) {
+            // @ts-ignore
+            if (guess === metadata.name || guesses.indexOf(metadata.name) !== -1) {
+                setGuessCorrect(true);
+            }
+        }
+    }
+
+    useEffect(() => {
+        checkIfGuessIsCorrect();
+    }, [metadata, guess]);
   
     return (
         <Grid
