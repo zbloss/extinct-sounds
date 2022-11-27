@@ -35,8 +35,8 @@ const Home = ({address}) => {
     }
 
     const fetchTokenMetadata = async () => {
-        let metadata = await GetTokenMetadata(3)
-        setTokenMetadata(metadata.content)
+        const metadata = await GetTokenMetadata(0)
+        setTokenMetadata(metadata)
         setAnimationUrl(metadata.animation_url)
     }
 

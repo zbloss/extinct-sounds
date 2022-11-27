@@ -17,11 +17,10 @@ const GetTokenMetadata = async (tokenId: number) => {
     const tokenIpfsUriProxied = addIPFSProxy(tokenIpfsUri)
     const response = await fetch(tokenIpfsUriProxied)
     const ipfsContent = await response.json()
-    const animation = addIPFSProxy(ipfsContent.animation_url)  
-
-    return {
-        "content": ipfsContent,
-        "animation_url": animation
-    }
+    ipfsContent.animation_url = addIPFSProxy(ipfsContent.animation_url)
+    ipfsContent.audio = addIPFSProxy(ipfsContent.audio)
+    ipfsContent.external_url = addIPFSProxy(ipfsContent.external_url)
+    ipfsContent.image = addIPFSProxy(ipfsContent.image)
+    return ipfsContent
 }
 export default GetTokenMetadata;
