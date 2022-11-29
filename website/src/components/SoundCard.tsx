@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Grid, TextField, CardActions, Button } from '@mui/material';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
-import Cubes from '../constants/Cubes';
 import LoadingBar from './LoadingBar';
 import MaxNumberOfGuesses from '../constants/MaxNumberOfGuesses';
 
@@ -24,7 +23,6 @@ const SoundCard = (params) => {
     const [guessCorrect, setGuessCorrect] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
     const [showDetails, setShowDetails] = useState<boolean>(false);
-    const [cubeGuesses, setCubeGuesses] = useState([]);
 
     const tooManyGuesses = guesses.length >= MaxNumberOfGuesses();
 
@@ -83,10 +81,6 @@ const SoundCard = (params) => {
             // @ts-ignore
             if (guesses.indexOf(metadata.name.toLowerCase()) !== -1) {
                 setGuessCorrect(true);
-                console.log('green:', Cubes('green'))
-            } else {
-
-                console.log('red:', Cubes('red'))
             }
         }
     }
@@ -146,7 +140,6 @@ const SoundCard = (params) => {
         )
     }
         
-
     useEffect(() => {
         checkIfGuessIsCorrect(metadata, guesses);
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Grid, Typography, Card, CardContent, CardActions, Button } from '@mui/material';
 import { Container, Box } from '@mui/system';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
@@ -8,7 +8,7 @@ import GetTokenMetadata from '../components/GetTokenMetadata';
 // @ts-ignore
 const Home = ({address}) => {
 
-    const [showDetails, setShowDetails] = useState<boolean>(false);
+    const [showDetails, setShowDetails] = useState<boolean>(true);
     const [tokenMetadata, setTokenMetadata] = useState<string | undefined>();
     const [animationUrl, setAnimationUrl] = useState<string | undefined>();
 
@@ -35,10 +35,15 @@ const Home = ({address}) => {
     }
 
     const fetchTokenMetadata = async () => {
+        console.log("fetching")
         const metadata = await GetTokenMetadata(0)
         setTokenMetadata(metadata)
         setAnimationUrl(metadata.animation_url)
     }
+
+    useEffect(() => {
+        fetchTokenMetadata()
+    }, [])
 
     return (
         <Container maxWidth="md">
@@ -69,11 +74,6 @@ const Home = ({address}) => {
                     </Card>
                 </Grid>
                 <Grid item xs={12} sm={2}></Grid>
-                <Grid item xs={12}>
-                    <Button onClick={() => {fetchTokenMetadata()}}>
-                        Get Token Details
-                    </Button>
-                </Grid>
             </Grid>
 
         </Container>
