@@ -27,6 +27,9 @@ class GenerateNFTs(FlowSpec):
     video_output_directory = Parameter(
         "video_output_directory", type=str, required=False, default="./artifacts/mp4"
     )
+    output_nft_mapping_filepath = Parameter(
+        "output_nft_mapping_filepath", type=str, required=False, default="/Users/zbloss/Projects/extinct-sounds/website/src/nfts.json"
+    )
 
     @step
     def start(self):
@@ -211,7 +214,7 @@ class GenerateNFTs(FlowSpec):
 
         _ = write_file(
             json.dumps(mapping),
-            os.path.join(self.mapping_file_directory, "nfts.json"),
+            self.output_nft_mapping_filepath,
         )
 
         self.next(self.end)

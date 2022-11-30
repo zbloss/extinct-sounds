@@ -1,22 +1,18 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { Grid, TextField, CardActions, Button } from '@mui/material';
+import { Grid, TextField, CardActions, Button, Box, Card, CardContent, CardMedia, IconButton, Typography } from '@mui/material';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
+import MintNFT from './MintNFT';
 import LoadingBar from './LoadingBar';
 import MaxNumberOfGuesses from '../constants/MaxNumberOfGuesses';
 
 
 // @ts-ignore
 const SoundCard = (params) => {
-    const imageUrl = params.imageUrl
-    const metadata = params.metadata
+    const imageUrl = params.imageUrl;
+    const metadata = params.metadata;
+    const chosenNFT = params.chosenNFT;
 
     const [guesses, setGuesses] = useState([]);
     const [guess, setGuess] = useState<string>('');
@@ -118,22 +114,24 @@ const SoundCard = (params) => {
         }
     }
 
-    const showDetailsButton = () => {
+    const showDetailsButton = (key: string) => {
         return (
             <Button 
                 size="small" 
                 onClick={() => {setShowDetails(true)}}
+                key={key}
             >
                 Show Details <ArrowDropDown color="secondary" />
             </Button>
         )
     }
 
-    const hideDetailsButton = () => {
+    const hideDetailsButton = (key: string) => {
         return (
             <Button 
                 size="small" 
                 onClick={() => {setShowDetails(false)}}
+                key={key}
             >
                 Hide Details <ArrowDropUp color="secondary" />
             </Button>
@@ -167,26 +165,38 @@ const SoundCard = (params) => {
                             sx={{ mb: 4, mt: 4 }}
                         >
 
-                        {loading ? 
-                            <LoadingBar /> :     
-                            showCardContent(imageUrl)
+                        {guessCorrect && !tooManyGuesses ?
+                        <Grid item xs={12} sx={{ml: 1, mr: 1}}>
+                            <Typography variant="h3" color="honeydew">
+                                {metadata ? metadata.name : <></>}
+                            </Typography> 
+                        </Grid>
+                        : <></>
                         }
+
+                        <Grid item xs={12}>
+                            {loading ? 
+                                <LoadingBar /> :     
+                                showCardContent(imageUrl)
+                            }
+                        </Grid>
                         {guessCorrect && !tooManyGuesses ? 
-                            <Grid item xs={12} sx={{ ml: 15, mr: 15 }}>
-                                <CardContent sx={{ justifyContent:'center' }}>
-                                    <Typography variant="h5">
-                                        {metadata ? metadata.name : <></>}
-                                    </Typography>                
+                            <Grid item xs={12} sx={{ ml: 2, mr: 2 }}>
+                                <CardContent sx={{ direction: "column", alignItems: "center", justifyContent:'center' }}>         
                                     {showDetails ? 
                                         <Typography variant="body2">
                                             {metadata ? metadata.description : <></>}
                                         </Typography> : <></>
                                     }
-                        
+                                
                                 </CardContent>
                                 <CardActions sx={{ display:'flex', justifyContent:'center' }}>
-                                    {showDetails ? hideDetailsButton() : showDetailsButton()}
+                                    {showDetails ? hideDetailsButton("soundcard-hide-details-button") : showDetailsButton("soundcard-show-details-button")}
                                 </CardActions>
+                                <CardContent>
+                                    <MintNFT chosenNFT={chosenNFT} numberOfGuesses={guesses?.length} />
+                                </CardContent>
+                                
                             </Grid> : <></>
                         }
                             <Grid item xs={12} sx={{ mb: 4 }}>
@@ -194,10 +204,16 @@ const SoundCard = (params) => {
                             </Grid>
                             {guesses?.map((v, index) => {
                                 return (
-                                    <Grid item xs={12}>
+                                    <Grid 
+                                        item 
+                                        xs={12} 
+                                        id={`grid-previous-guesses-${index}`} 
+                                        key={`grid-previous-guesses-${index}`}
+                                    >
                                         <TextField 
                                             disabled
-                                            id={`previous-guesses-${index + 1}`}
+                                            id={`previous-guesses-${index}`}
+                                            key={`previous-guesses-${index}`}
                                             variant="filled" 
                                             value={v}
                                         />

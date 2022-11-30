@@ -4,30 +4,55 @@ import { Container, Box } from '@mui/system';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import SoundCard from '../components/SoundCard';
 import GetTokenMetadata from '../components/GetTokenMetadata';
+import WelcomeName from '../components/WelcomeName';
+import { useEnsName } from 'wagmi';
+import AddIPFSProxy from '../components/AddIPFSProxy';
+import NFTMapping from '../nfts.json';
 
 // @ts-ignore
-const Home = ({address}) => {
+const Home = (params) => {
+
+    const address = params.address
+    const chosenNFT = "01";
+    const tokenURI = AddIPFSProxy(NFTMapping[chosenNFT][1]);
+
+    // const { data: tokenURI } = useContractRead({
+    //     address: contractAddress,
+    //     abi: contractAbi,
+    //     functionName: 'tokenURI',
+    //     args: [0],
+    //     // @ts-ignore
+    //     select: (data) => AddIPFSProxy(data)
+    // })
+
+
+    const { data: ensName } = useEnsName({
+        address: address
+    })
 
     const [showDetails, setShowDetails] = useState<boolean>(true);
     const [tokenMetadata, setTokenMetadata] = useState<string | undefined>();
     const [animationUrl, setAnimationUrl] = useState<string | undefined>();
+    const [welcomeName, setWelcomeName] = useState<string | undefined>();
 
-    const showDetailsButton = () => {
+    const showDetailsButton = (key: string) => {
         return (
             <Button 
                 size="small" 
                 onClick={() => {setShowDetails(true)}}
+                key={key}
             >
                 Show Details <ArrowDropDown color="secondary" />
             </Button>
         )
     }
 
-    const hideDetailsButton = () => {
+    const hideDetailsButton = (key: string) => {
         return (
             <Button 
                 size="small" 
                 onClick={() => {setShowDetails(false)}}
+                key={key}
             >
                 Hide Details <ArrowDropUp color="secondary" />
             </Button>
@@ -35,22 +60,24 @@ const Home = ({address}) => {
     }
 
     const fetchTokenMetadata = async () => {
-        console.log("fetching")
-        const metadata = await GetTokenMetadata(0)
+        // @ts-ignore
+        const metadata = await GetTokenMetadata(tokenURI)
         setTokenMetadata(metadata)
-        setAnimationUrl(metadata.animation_url)
+        setAnimationUrl(metadata?.animation_url)
+        
     }
 
     useEffect(() => {
-        fetchTokenMetadata()
-    }, [])
+        fetchTokenMetadata();
+        setWelcomeName(WelcomeName({address, ensName}))
+    }, [address, ensName])
 
     return (
         <Container maxWidth="md">
             <Grid container spacing={2} sx={{ mt: 2 }}>  
 
                 <Grid item xs={12} sx={{ mt: 2 }}>
-                    <SoundCard imageUrl={animationUrl} metadata={tokenMetadata} />
+                    <SoundCard imageUrl={animationUrl} metadata={tokenMetadata} address={address} chosenNFT={chosenNFT} />
                 </Grid>
 
                 <Grid item xs={12} sm={2}></Grid>
@@ -58,8 +85,7 @@ const Home = ({address}) => {
                     <br/>
                     <Card sx={{ minWidth: 100 }}>
                         <CardContent sx={{ justifyContent:'center' }}>
-                            <Typography sx={{ mb: 2 }} variant="h4" color="secondary">Welcome
-                                {address ? <Box component="span" color="celadonblue"> {address}!</Box> : <>!</>}
+                            <Typography sx={{ mb: 2 }} variant="h4" color="secondary">Welcome <Box component="span" color="celadonblue">{welcomeName}!</Box>
                             </Typography>
                             {showDetails ? 
                                 <Typography variant="h6" color="honeydew">
@@ -68,7 +94,7 @@ const Home = ({address}) => {
                             }
                         </CardContent>
                         <CardActions sx={{ display:'flex', justifyContent:'center' }}>
-                            {showDetails ? hideDetailsButton() : showDetailsButton()}
+                            {showDetails ? hideDetailsButton("hide-card-key") : showDetailsButton("show-card-key")}
                         </CardActions>
                         
                     </Card>
