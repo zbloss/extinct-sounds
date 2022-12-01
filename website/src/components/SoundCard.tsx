@@ -164,7 +164,6 @@ https://extinct-sounds.com`
         try {
             // @ts-ignore
             await navigator.clipboard.writeText(clipboardContent);
-            console.log('Content copied to clipboard');
         } catch (err) {
             console.error('Failed to copy: ', err);
         }
