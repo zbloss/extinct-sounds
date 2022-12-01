@@ -7,7 +7,7 @@ const WelcomeName = (params) => {
         const address = params.address;
         const ensName = params.ensName;
 
-        if (ensName) {
+        if (ensName !== null) {
             return ensName
         }
 

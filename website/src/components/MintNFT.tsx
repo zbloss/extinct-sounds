@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, IconButton, Link, Grid, Typography } from '@mui/material';
+import { Button, Link, Grid, Typography } from '@mui/material';
 import ExtinctSoundsABI from '../build/contracts/ExtinctSounds.json';
 import ContractMapping from '../build/deployments/map.json';
 import { useContractWrite, usePrepareContractWrite, useNetwork, useAccount } from 'wagmi';
@@ -36,16 +36,47 @@ const MintNFT = (params) => {
     
     const buttonContent = () => {
         if (isIdle) {
-            return "Mint NFT"
+            return (
+                <Button 
+                    size="large" 
+                    variant="contained"
+                    sx={{ backgroundColor: "honeydew", color: "eerieblack" }}
+                    onClick={() => write?.()}
+                    disabled={!write}
+                >
+                    <Typography variant="h6">Mint NFT</Typography>
+                </Button>
+            )
         }
         if (isLoading) {
             return <LoadingCircle />
         }
         if (isError) {
-            return <IconButton sx={{ color: "eerieblack" }}>Error <ClearIcon /></IconButton>
+            return (
+                <Button 
+                    size="large" 
+                    variant="contained"
+                    sx={{ backgroundColor: "honeydew", color: "eerieblack" }}
+                    onClick={() => write?.()}
+                    disabled={!write}
+                    >
+                    
+                    <Typography variant="h6">Error <ClearIcon /></Typography>
+                </Button>
+            )
         }
         if (isSuccess) {
-            return <IconButton sx={{ color: "eerieblack" }}>Success <DoneIcon /></IconButton>
+            return (
+                <Button 
+                    size="large" 
+                    variant="contained"
+                    sx={{ backgroundColor: "honeydew", color: "eerieblack" }}
+                    onClick={() => write?.()}
+                    disabled={!write}
+                >
+                    <Typography variant="h6">Success <DoneIcon /></Typography>
+                </Button>
+            )
         }
     }
 
@@ -68,22 +99,15 @@ const MintNFT = (params) => {
         direction="column"
         alignItems="center"
     >
-        {!isConnected ? 
         <Grid item xs={12}>
-            <Typography variant="body2">Please log in using the Connect Wallet button at the top of your screen in order to mint your reward!</Typography>
+            {!isConnected ? 
+            
+                <Typography variant="body2">Please log in using the Connect Wallet button at the top of your screen in order to mint your reward!</Typography>
+                : <></>
+            }
         </Grid>
-        : <></>
-        }
         <Grid item xs={12}>
-            <Button 
-                size="large" 
-                variant="contained"
-                sx={{ backgroundColor: "honeydew", color: "eerieblack" }}
-                onClick={() => write?.()}
-                disabled={!write}
-            >
-                {buttonContent()}
-            </Button>
+            {buttonContent()}
         </Grid>
 
         {transactionHashLink && transactionHash ? 

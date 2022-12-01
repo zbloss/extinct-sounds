@@ -5,29 +5,19 @@ import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import SoundCard from '../components/SoundCard';
 import GetTokenMetadata from '../components/GetTokenMetadata';
 import WelcomeName from '../components/WelcomeName';
-import { useEnsName } from 'wagmi';
+import { useEnsName, useAccount } from 'wagmi';
 import AddIPFSProxy from '../components/AddIPFSProxy';
 import NFTMapping from '../nfts.json';
 
 // @ts-ignore
-const Home = (params) => {
+const Home = () => {
 
-    const address = params.address
     const chosenNFT = "01";
     const tokenURI = AddIPFSProxy(NFTMapping[chosenNFT][1]);
 
-    // const { data: tokenURI } = useContractRead({
-    //     address: contractAddress,
-    //     abi: contractAbi,
-    //     functionName: 'tokenURI',
-    //     args: [0],
-    //     // @ts-ignore
-    //     select: (data) => AddIPFSProxy(data)
-    // })
-
-
+    const { address } = useAccount()
     const { data: ensName } = useEnsName({
-        address: address
+        address: address, 
     })
 
     const [showDetails, setShowDetails] = useState<boolean>(true);
@@ -59,31 +49,29 @@ const Home = (params) => {
         )
     }
 
-    const fetchTokenMetadata = async () => {
-        // @ts-ignore
-        const metadata = await GetTokenMetadata(tokenURI)
-        setTokenMetadata(metadata)
-        setAnimationUrl(metadata?.animation_url)
-        
-    }
-
     useEffect(() => {
+        const fetchTokenMetadata = async () => {
+            // @ts-ignore
+            const metadata = await GetTokenMetadata(tokenURI)
+            setTokenMetadata(metadata)
+            setAnimationUrl(metadata?.animation_url)
+            
+        }
         fetchTokenMetadata();
-        setWelcomeName(WelcomeName({address, ensName}))
-    }, [address, ensName])
+        setWelcomeName(WelcomeName({address, ensName}));
+
+    }, [address, ensName, tokenURI])
 
     return (
-        <Container maxWidth="md">
+        <Container>
             <Grid container spacing={2} sx={{ mt: 2 }}>  
 
                 <Grid item xs={12} sx={{ mt: 2 }}>
                     <SoundCard imageUrl={animationUrl} metadata={tokenMetadata} address={address} chosenNFT={chosenNFT} />
                 </Grid>
 
-                <Grid item xs={12} sm={2}></Grid>
-                <Grid item xs={12} sm={8}>
-                    <br/>
-                    <Card sx={{ minWidth: 100 }}>
+                <Grid item xs={12} >
+                    <Card >
                         <CardContent sx={{ justifyContent:'center' }}>
                             <Typography sx={{ mb: 2 }} variant="h4" color="secondary">Welcome <Box component="span" color="celadonblue">{welcomeName}!</Box>
                             </Typography>
@@ -99,7 +87,6 @@ const Home = (params) => {
                         
                     </Card>
                 </Grid>
-                <Grid item xs={12} sm={2}></Grid>
             </Grid>
 
         </Container>
