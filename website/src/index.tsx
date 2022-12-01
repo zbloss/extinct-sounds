@@ -7,16 +7,32 @@ import { BrowserRouter } from "react-router-dom";
 import theme from './theme/theme';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { WagmiConfig } from 'wagmi'
+import WagmiClient from './components/WagmiClient';
+import { Web3Modal } from '@web3modal/react'
+import EthClient from './components/EthClient';
+
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement!);
+
+const wClient = WagmiClient()
+const ethClient = EthClient()
+
 
 root.render(
   <BrowserRouter>
     <ThemeProvider theme={theme}>
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
       <CssBaseline />
-      <App />
+      {/* @ts-ignore */}
+      <WagmiConfig client={wClient}>
+        <App />
+      </WagmiConfig>
+      <Web3Modal
+        projectId={process.env["REACT_APP_WALLET_CONNECT_PROJECT_ID"]}
+        ethereumClient={ethClient}
+      />
     </ThemeProvider>
   </BrowserRouter>
 );

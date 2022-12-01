@@ -1,98 +1,289 @@
-import React from 'react';
-import { useState } from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { Grid, TextField } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Grid, TextField, CardActions, Button, Box, Card, CardContent, CardMedia, Typography, InputAdornment } from '@mui/material';
+import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
+import MintNFT from './MintNFT';
+import LoadingBar from './LoadingBar';
+import MaxNumberOfGuesses from '../constants/MaxNumberOfGuesses';
+import GuessThreshold from '../constants/GuessThreshold';
+// @ts-ignore
+import stringSimilarity from 'string-similarity'
+import DoneIcon from '@mui/icons-material/Done';
+import ClearIcon from '@mui/icons-material/Clear';
 
 // @ts-ignore
-const SoundCard = ({imageUrl}) => {
-
-    // const imageUrl = "https://imgs.search.brave.com/FPHR0VnYnneIffc_M8R5GjtdlQmcBQAdGSE1gBCvCjk/rs:fit:1200:1080:1/g:ce/aHR0cHM6Ly9hNC1p/bWFnZXMubXlzcGFj/ZWNkbi5jb20vaW1h/Z2VzMDQvMTAvYjRh/NDQxYzI4NzA1NDI1/Njk0ODNiOTdiY2I2/NmFhMWYvZnVsbC5q/cGc"
+const SoundCard = (params) => {
+    const imageUrl = params.imageUrl;
+    const metadata = params.metadata;
+    const chosenNFT = params.chosenNFT;
+    const correctAnswer = metadata?.name.toLowerCase();
+    const greenBlock = "🟩 " 
+    const blackBlock = "⬛ "
+    const redBlock = "🟥 " 
 
     const [guesses, setGuesses] = useState([]);
     const [guess, setGuess] = useState<string>('');
+    const [guessCorrect, setGuessCorrect] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [showDetails, setShowDetails] = useState<boolean>(false);
+    const [shareButtonContent, setShareButtonContent] = useState<string>("Share");
+
+    const tooManyGuesses = guesses?.length >= MaxNumberOfGuesses();
+    const guessesRemaining = MaxNumberOfGuesses() - guesses.length;
+
     const appendGuess = () => {
-        if (guesses.length <= 5) {    
+        if (guesses?.length <= 5) {    
             // @ts-ignore
-            const newguesses = guesses.concat(guess)
+            const newguesses = guesses.concat(guess.toLowerCase())
             setGuesses(newguesses)
             
         }
     }
 
+    const showCardContent = (imageUrl: string) => {
 
+        return (
+            <Card sx={{ display: 'flex', minWidth: 300 }}>
+                {/* @ts-ignore */}
+                <CardMedia
+                    component={guessCorrect ? "video" : "audio"}
+                    sx={{ mb: 2, mt: 2 }}
+                    src={imageUrl}
+                    alt="The extinct-sounds image or video of the day."
+                    className='audio-element'
+                    controls={true}
+                />
+            </Card>
+        )
+    }
+
+    // @ts-ignore
+    const checkIfCurrentGuessEqualsPreviousGuess = () => {
+
+        // @ts-ignore
+        if (guesses.slice(-1)[0] === guess.toLowerCase()) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    // @ts-ignore
+    const checkIfGuessIsCorrect = (list_of_guesses) => {
+        if (list_of_guesses.length > 0) {
+
+            let distance = stringSimilarity.compareTwoStrings(
+                correctAnswer, 
+                list_of_guesses[list_of_guesses.length - 1]
+            )
+
+            if (distance >= GuessThreshold()) {
+                setGuessCorrect(true)
+                return true
+            }
+            return false;
+        }
+        return guessCorrect
+    }
+
+    const guessField = (disabled: boolean) => {
+        if (disabled) {
+            return (
+                <TextField 
+                    label="Guess" 
+                    variant="outlined" 
+                    value={guess}
+                    disabled
+                />
+            )
+        } else {
+            return (
+                <TextField 
+                    label="Guess" 
+                    variant="outlined" 
+                    onChange={(e) => setGuess(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            if (!checkIfCurrentGuessEqualsPreviousGuess()) {
+                                // @ts-ignore
+                                appendGuess();
+                                setGuess('');
+                            }
+                        }
+                    }}
+                    value={guess}
+                />
+            )
+        }
+    }
+
+    const showDetailsButton = (key: string) => {
+        return (
+            <Button 
+                size="small" 
+                onClick={() => {setShowDetails(true)}}
+                key={key}
+            >
+                Show Details <ArrowDropDown color="secondary" />
+            </Button>
+        )
+    }
+
+    const hideDetailsButton = (key: string) => {
+        return (
+            <Button 
+                size="small" 
+                onClick={() => {setShowDetails(false)}}
+                key={key}
+            >
+                Hide Details <ArrowDropUp color="secondary" />
+            </Button>
+        )
+    }
+
+
+    const GenerateClipboardContent = async () => {
+
+        let emojiString = ""
+        guesses?.forEach((g) => {
+            let correct = checkIfGuessIsCorrect([g])
+            if (!correct) {
+                emojiString += redBlock
+            }
+            if (correct) {
+                emojiString += greenBlock
+            }
+        })
+        let numberOfBlackBlocksToAdd = MaxNumberOfGuesses() - guesses.length;
+        for (let i = 0; i < numberOfBlackBlocksToAdd; i++) {
+            emojiString += blackBlock;
+        }
+        let clipboardContent = `Extinct-Sounds #${chosenNFT} 
+${emojiString}
+https://extinct-sounds.com`
+
+        try {
+            // @ts-ignore
+            await navigator.clipboard.writeText(clipboardContent);
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+        }
+    }
+    
+    const changeButtonContent = () => {
+        setShareButtonContent("Copied")
+    }
+        
+    useEffect(() => {
+        checkIfGuessIsCorrect(guesses);
+
+        if (metadata !== undefined && metadata !== null && imageUrl !== undefined && imageUrl !== null) {
+            setLoading(false);
+        }
+
+    }, [metadata, guesses, imageUrl]);
+  
     return (
         <Grid
             container
-            spacing={0}
+            spacing={2}
             direction="column"
             alignItems="center"
         >
             <Grid item xs={12}>
-                <Card sx={{ direction: "column", alignItems: "center" }}>
+                <Card>
                     <Box >
-                        <CardMedia
-                            component="img"
-                            sx={{ maxWidth: 600 }}
-                            image={imageUrl}
-                            alt="Live from space album cover"
-                        />
-                        <CardContent sx={{ display:'flex', justifyContent:'center' }}>
-                            <Typography variant="h5">
-                                Play Sound  
-                                <IconButton aria-label="play/pause">
-                                    <PlayArrowIcon sx={{ height: 38, width: 38 }} />
-                                </IconButton>
-                            </Typography>
-                            
-                        </CardContent>
                         <Grid 
                             container
-                            spacing={2}
                             direction="column"
                             alignItems="center"
-                            sx={{ mb: 4 }}
+                            sx={{ mb: 2, mt: 2 }}
                         >
-                            <Grid item xs={12} sx={{ mb: 4 }}>
-                                <TextField 
-                                    id="outlined-basic" 
-                                    label="Guess" 
-                                    variant="outlined" 
-                                    onChange={(e) => setGuess(e.target.value)}
-                                    onSubmit={(e) => {
-                                        // @ts-ignore
-                                        appendGuess();
-                                    }}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
 
-                                            // @ts-ignore
-                                            appendGuess(); 
-                                            setGuess('');
-                                        }
-                                    }}
-                                    value={guess}
-                                />
+                        {guessCorrect && !tooManyGuesses ?
+                            <Grid item xs={12} sx={{ml: 1, mr: 1}}>
+                                <Typography variant="h3" color="honeydew">
+                                    {metadata ? metadata.name : <></>}
+                                </Typography> 
                             </Grid>
-                            {guesses?.map((v, index) => {
+                            : <></>
+                        }
 
+                        <Grid item xs={12} sx={{ ml: 6, mr: 6}}>
+                            {loading ? 
+                                <LoadingBar /> :     
+                                showCardContent(imageUrl)
+                            }
+                        </Grid>
+                        {guessCorrect && !tooManyGuesses ? 
+                            <Grid item xs={12} sx={{ ml: 2, mr: 2 }}>
+                                {showDetails ? 
+                                    <CardContent sx={{ direction: "column", alignItems: "center", justifyContent:'center' }}>         
+                                        <Typography variant="body2">
+                                            {metadata ? metadata.description : <></>}
+                                    
+                                        </Typography>
+                                </CardContent> : <></>
+                                }
+                                <CardActions sx={{ justifyContent:'center' }}>
+                                    {showDetails ? hideDetailsButton("soundcard-hide-details-button") : showDetailsButton("soundcard-show-details-button")}
+                                </CardActions>
+                                <CardContent>
+                                    <Grid container direction="column" alignItems="center">
+                                        <Grid item xs={12} sx={{ mb: 2 }}>
+                                            <MintNFT chosenNFT={chosenNFT} numberOfGuesses={guesses?.length} />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Button 
+                                                size="large" 
+                                                variant="contained"
+                                                sx={{ backgroundColor: "powderblue", color: "eerieblack" }}
+                                                onClick={() => {changeButtonContent();GenerateClipboardContent()}}
+                                            >
+                                                <Typography variant="h6">{shareButtonContent}</Typography>
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                                
+                            </Grid> : <></>
+                        }
+                            <Grid item xs={12} sx={{ mb: 2 }}>
+                                {guessField(guessCorrect)}
+                            </Grid>
+                            <Grid item xs={12} sx={{ mb: 2 }}>
+                                {guessesRemaining > 0
+                                    ? <Typography>{guessesRemaining} Guesses Left </Typography> 
+                                    : <Typography>Sorry, you're out of guesses, please try again later. <br />The next Extinct-Sound is available in X time</Typography> 
+                                }
+                            </Grid>
+
+                            {guesses?.map((v, index) => {
                                 return (
-                                    <Grid item xs={12}>
+                                    <Grid 
+                                        item 
+                                        xs={12} 
+                                        id={`grid-previous-guesses-${index}`} 
+                                        key={`grid-previous-guesses-${index}`}
+                                        sx={{ mb: 1 }}
+                                    >
                                         <TextField 
                                             disabled
-                                            id={`previous-guesses-${index + 1}`}
+                                            id={`previous-guesses-${index}`}
+                                            key={`previous-guesses-${index}`}
                                             variant="filled" 
+                                            InputProps={{
+                                                // @ts-ignore
+                                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        {index === guesses.length - 1 && guessCorrect ? <DoneIcon /> : <ClearIcon />}
+                                                    </InputAdornment>
+                                                ),
+                                            }}
                                             value={v}
                                         />
                                     </Grid>
                                 )
                             })}
-
                         </Grid>
                     </Box>
                 </Card>
