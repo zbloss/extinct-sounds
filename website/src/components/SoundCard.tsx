@@ -12,8 +12,10 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 // @ts-ignore
 const SoundCard = (params) => {
-    const imageUrl = params.imageUrl;
     const metadata = params.metadata;
+    const audioUrl = params.metadata?.audio;
+    const videoUrl = params.metadata?.animation_url;
+
     const chosenNFT = params.chosenNFT;
     const correctAnswer = metadata?.name.toLowerCase();
     const greenBlock = "🟩 " 
@@ -39,16 +41,31 @@ const SoundCard = (params) => {
         }
     }
 
-    const showCardContent = (imageUrl: string) => {
+    const showCardContent = () => {
 
+        if(guessCorrect) {
+            return (
+                <Card sx={{ display: 'flex', minWidth: 300 }}>
+                {/* @ts-ignore */}
+                <CardMedia
+                    component="video"
+                    sx={{ mb: 2, mt: 2 }}
+                    src={videoUrl}
+                    alt="The extinct-sounds video of the day."
+                    className='audio-element'
+                    controls={true}
+                    />
+            </Card>
+            )
+        }
         return (
             <Card sx={{ display: 'flex', minWidth: 300 }}>
                 {/* @ts-ignore */}
                 <CardMedia
-                    component={guessCorrect ? "video" : "audio"}
+                    component="audio"
                     sx={{ mb: 2, mt: 2 }}
-                    src={imageUrl}
-                    alt="The extinct-sounds image or video of the day."
+                    src={audioUrl}
+                    alt="The extinct-sounds of the day."
                     className='audio-element'
                     controls={true}
                 />
@@ -176,11 +193,11 @@ https://extinct-sounds.com`
     useEffect(() => {
         checkIfGuessIsCorrect(guesses);
 
-        if (metadata !== undefined && metadata !== null && imageUrl !== undefined && imageUrl !== null) {
+        if (metadata !== undefined && metadata !== null && audioUrl !== undefined && videoUrl !== null) {
             setLoading(false);
         }
 
-    }, [metadata, guesses, imageUrl]);
+    }, [metadata, guesses, audioUrl, videoUrl]);
   
     return (
         <Grid
@@ -211,7 +228,7 @@ https://extinct-sounds.com`
                         <Grid item xs={12} sx={{ ml: 6, mr: 6}}>
                             {loading ? 
                                 <LoadingBar /> :     
-                                showCardContent(imageUrl)
+                                showCardContent()
                             }
                         </Grid>
                         {guessCorrect && !tooManyGuesses ? 

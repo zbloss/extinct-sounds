@@ -24,7 +24,6 @@ const Home = () => {
 
     const [showDetails, setShowDetails] = useState<boolean>(true);
     const [tokenMetadata, setTokenMetadata] = useState<string | undefined>();
-    const [animationUrl, setAnimationUrl] = useState<string | undefined>();
     const [welcomeName, setWelcomeName] = useState<string | undefined>();
 
     const showDetailsButton = (key: string) => {
@@ -56,7 +55,6 @@ const Home = () => {
             // @ts-ignore
             const metadata = await GetTokenMetadata(tokenURI)
             setTokenMetadata(metadata)
-            setAnimationUrl(metadata?.animation_url)
             
         }
         fetchTokenMetadata();
@@ -69,7 +67,7 @@ const Home = () => {
             <Grid container spacing={2} sx={{ mt: 2 }}>  
 
                 <Grid item xs={12} sx={{ mt: 2 }}>
-                    <SoundCard imageUrl={animationUrl} metadata={tokenMetadata} address={address} chosenNFT={chosenNFT} />
+                    <SoundCard metadata={tokenMetadata} chosenNFT={chosenNFT} />
                 </Grid>
 
                 <Grid item xs={12} >

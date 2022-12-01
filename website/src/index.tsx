@@ -22,18 +22,17 @@ const ethClient = EthClient()
 
 root.render(
   <BrowserRouter>
-    <ThemeProvider theme={theme}>
-      {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-      <CssBaseline />
-      {/* @ts-ignore */}
-      <WagmiConfig client={wClient}>
+    {/* @ts-ignore */}
+    <WagmiConfig client={wClient}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />        
         <App />
-      </WagmiConfig>
-      <Web3Modal
-        projectId={process.env["REACT_APP_WALLET_CONNECT_PROJECT_ID"]}
-        ethereumClient={ethClient}
-      />
-    </ThemeProvider>
+      </ThemeProvider>
+    </WagmiConfig>
+    <Web3Modal
+      projectId={process.env["REACT_APP_WALLET_CONNECT_PROJECT_ID"]}
+      ethereumClient={ethClient}
+    />
   </BrowserRouter>
 );
 
