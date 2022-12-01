@@ -7,12 +7,14 @@ import GetTokenMetadata from '../components/GetTokenMetadata';
 import WelcomeName from '../components/WelcomeName';
 import { useEnsName, useAccount } from 'wagmi';
 import AddIPFSProxy from '../components/AddIPFSProxy';
+import ChosenNFT from '../components/ChosenNFT';
 import NFTMapping from '../nfts.json';
 
 // @ts-ignore
 const Home = () => {
 
-    const chosenNFT = "01";
+    const chosenNFT = ChosenNFT();
+    // @ts-ignore
     const tokenURI = AddIPFSProxy(NFTMapping[chosenNFT][1]);
 
     const { address } = useAccount()
