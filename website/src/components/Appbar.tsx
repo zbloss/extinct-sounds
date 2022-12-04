@@ -9,6 +9,7 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from '@mui/material';
 import { Web3Button } from '@web3modal/react';
 import WelcomeName from './WelcomeName';
 
@@ -57,6 +58,11 @@ function Appbar(params) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
               >
+                <MenuItem key="collection" onClick={handleCloseUserMenu}>
+                    <Link href="/collection">
+                      <Typography textAlign="center">My Collection</Typography>
+                    </Link>
+                </MenuItem>
                 <MenuItem key="address" onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">Address: {welcomeName ? welcomeName : "Error"}</Typography>
                 </MenuItem>

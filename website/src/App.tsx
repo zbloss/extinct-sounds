@@ -10,6 +10,7 @@ import {
 } from "wagmi";
 
 import Home from './pages/Home';
+import Collection from './pages/Collection';
 import Error from './pages/Error';
 import Appbar from './components/Appbar';
 
@@ -47,7 +48,10 @@ function App() {
 
         <Routes>
           {/* @ts-ignore */}
-          <Route path="/" element={<Home address={address} ensName={ensName} />}></Route>
+          <Route path="/" element={<Home />}></Route>
+
+          {/* @ts-ignore */}
+          <Route path="/collection" element={<Collection />}></Route>
           <Route path="*" element={<Error />}></Route>
         </Routes>   
       

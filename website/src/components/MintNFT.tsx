@@ -17,13 +17,16 @@ const MintNFT = (params) => {
     // @ts-ignore
     const tokenURI = NFTMapping[chosenNFT][numberOfGuesses]
 
-    const contractAddress = ContractMapping["5"]["ExtinctSounds"][0]
+    const { chain } = useNetwork()
+    const contractChainId = chain?.id ? String(chain?.id) : "5"
+
+    // @ts-ignore
+    const contractAddress = ContractMapping[contractChainId]["ExtinctSounds"][0]
     const contractAbi = ExtinctSoundsABI.abi
 
     const [transactionHash, setTransactionHash] = useState<string | undefined>();
     const [transactionHashLink, setTransactionHashLink] = useState<string | undefined>();
 
-    const { chain } = useNetwork()
     const { address, isConnected } = useAccount()
 
     const { config } = usePrepareContractWrite({

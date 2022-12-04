@@ -17,10 +17,11 @@ contract ExtinctSounds is ERC721, ERC721URIStorage, Ownable {
         tokenCounter = 0;
     }
 
-    function safeMint(address to, string memory uri) public onlyOwner {
+    function safeMint(string memory uri) public {
         uint256 tokenId = tokenCounter;
-        _safeMint(to, tokenId);
+        _safeMint(msg.sender, tokenId);
         _setTokenURI(tokenId, uri);
+        // approve(msg.sender, tokenId);
         tokenCounter = tokenCounter + 1;
         emit NFTMinted(msg.sender, uri, tokenId);
 
