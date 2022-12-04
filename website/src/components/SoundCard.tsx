@@ -46,31 +46,32 @@ const SoundCard = (params) => {
         if(guessCorrect) {
             return (
                 <Card sx={{ display: 'flex', minWidth: 300 }}>
-                {/* @ts-ignore */}
-                <CardMedia
-                    component="video"
-                    sx={{ mb: 2, mt: 2 }}
-                    src={videoUrl}
-                    alt="The extinct-sounds video of the day."
-                    className='audio-element'
-                    controls={true}
+                    {/* @ts-ignore */}
+                    <CardMedia
+                        component="video"
+                        sx={{ mb: 2, mt: 2 }}
+                        src={videoUrl}
+                        alt="The extinct-sounds video of the day."
+                        className='video-element'
+                        controls={true}
                     />
-            </Card>
+                </Card>
+            )
+        } else {
+            return (
+                <Card sx={{ display: 'flex', minWidth: 300 }}>
+                    {/* @ts-ignore */}
+                    <CardMedia
+                        component="audio"
+                        sx={{ mb: 2, mt: 2 }}
+                        src={audioUrl}
+                        alt="The extinct-sounds of the day."
+                        className='audio-element'
+                        controls={true}
+                    />
+                </Card>
             )
         }
-        return (
-            <Card sx={{ display: 'flex', minWidth: 300 }}>
-                {/* @ts-ignore */}
-                <CardMedia
-                    component="audio"
-                    sx={{ mb: 2, mt: 2 }}
-                    src={audioUrl}
-                    alt="The extinct-sounds of the day."
-                    className='audio-element'
-                    controls={true}
-                />
-            </Card>
-        )
     }
 
     // @ts-ignore
@@ -189,7 +190,7 @@ https://extinct-sounds.com`
     const changeButtonContent = () => {
         setShareButtonContent("Copied")
     }
-        
+    
     useEffect(() => {
         checkIfGuessIsCorrect(guesses);
 

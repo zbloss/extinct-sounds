@@ -90,6 +90,6 @@ def add_drawing_animation(
     if looped_video.duration > max_length_in_seconds:
         looped_video = looped_video.subclip(0, max_length_in_seconds)
 
-    looped_video.write_videofile(output_file)
+    looped_video.write_videofile(output_file, audio_codec='aac') #, codec="mpeg4")
 
     return output_file
