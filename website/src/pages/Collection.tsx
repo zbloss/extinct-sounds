@@ -121,7 +121,6 @@ const Collection = () => {
         // @ts-ignore
         let tmpCards = []
         userTokenURIs?.forEach((uri, index) => {
-            console.log("uri:", uri);
             // @ts-ignore
             GetTokenMetadata(AddIPFSProxy(uri))
                 .then((e) => {

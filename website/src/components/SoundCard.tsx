@@ -17,7 +17,7 @@ const SoundCard = (params) => {
     const videoUrl = params.metadata?.animation_url;
 
     const chosenNFT = params.chosenNFT;
-    const correctAnswer = metadata?.name.toLowerCase();
+    const correctAnswer = metadata?.name.toLowerCase().replace(/[^\w\s]/gi, ' ');
     const greenBlock = "🟩 " 
     const blackBlock = "⬛ "
     const redBlock = "🟥 " 
@@ -79,6 +79,8 @@ const SoundCard = (params) => {
 
         // @ts-ignore
         if (guesses.slice(-1)[0] === guess.toLowerCase()) {
+            alert("You've already tried that guess!")
+            setGuess('')
             return true
         } else {
             return false
@@ -88,12 +90,10 @@ const SoundCard = (params) => {
     // @ts-ignore
     const checkIfGuessIsCorrect = (list_of_guesses) => {
         if (list_of_guesses.length > 0) {
-
             let distance = stringSimilarity.compareTwoStrings(
                 correctAnswer, 
                 list_of_guesses[list_of_guesses.length - 1]
             )
-
             if (distance >= GuessThreshold()) {
                 setGuessCorrect(true)
                 return true
@@ -269,9 +269,9 @@ https://extinct-sounds.com`
                                 {guessField(guessCorrect)}
                             </Grid>
                             <Grid item xs={12} sx={{ mb: 2 }}>
-                                {guessesRemaining >= 0
+                                {guessesRemaining > 0
                                     ? <Typography>{guessesRemaining} Guesses Left </Typography> 
-                                    : <Typography>Sorry, you're out of guesses, please try again later. <br />The next Extinct-Sound is available in X time</Typography> 
+                                    : <Typography sx={{ ml: 4, mr: 4 }}>Sorry, you're out of guesses, please try again later. <br />The next Extinct-Sound is available in X time</Typography> 
                                 }
                             </Grid>
 

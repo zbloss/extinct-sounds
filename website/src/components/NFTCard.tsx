@@ -21,28 +21,54 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
       duration: theme.transitions.duration.shortest,
     }),
 }));
-  
-
 
 // @ts-ignore
 const NFTCard = (params) => {
 
     const [expanded, setExpanded] = useState(false);
-
     const handleExpandClick = () => {
       setExpanded(!expanded);
     };
   
     const metadata = params.metadata;
     const hash = metadata.tokenIpfsUri.replace('https://extinct-sounds.infura-ipfs.io/ipfs/', '')
-    console.log("hash:", metadata)
 
     const subheader = <Link target="_blank" href={metadata.tokenIpfsUri}>{ShortenString(hash)}</Link>
     const shortenedDescription = metadata.description.slice(0, 140)
 
+    const greenBlock = "🟩 " 
+    const blackBlock = "⬛ "
+    const redBlock = "🟥 " 
+
     // @ts-ignore
-    const shareButton = (params) => {
+    const shareButton = async (params) => {
         console.log("clicked share:", params)
+
+        const numberOfGuesses = Number(params.attributes[0].value)
+        const maxGuesses = Number(params.attributes[0].max_value)
+
+        let emojiString = "";
+        for (let i = 1; i < maxGuesses+1; i++) {
+            if (i < numberOfGuesses) {
+                emojiString += redBlock;
+            }
+            if (i === numberOfGuesses) {
+                emojiString += greenBlock;
+            }
+            if (i > numberOfGuesses) {
+                emojiString += blackBlock;
+            }
+        }
+        let clipboardContent = `Extinct-Sounds
+${emojiString}
+https://extinct-sounds.com`
+
+        try {
+            // @ts-ignore
+            await navigator.clipboard.writeText(clipboardContent);
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+        }
     }
 
     return (
@@ -92,7 +118,7 @@ const NFTCard = (params) => {
 
                     <Typography variant="h6">NFT Author:</Typography>
                     <Typography paragraph sx={{ ml: 2 }}>{metadata.author}</Typography>
-                    
+
                 </CardContent>
             </Collapse>
         </Card>
