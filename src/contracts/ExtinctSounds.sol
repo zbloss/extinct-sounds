@@ -15,6 +15,7 @@ contract ExtinctSounds is ERC721, ERC721URIStorage, Ownable {
 
     constructor() ERC721("ExtinctSounds", "EXS") {
         tokenCounter = 0;
+        initialized = true;
     }
 
     function safeMint(string memory uri) public {
@@ -41,4 +42,9 @@ contract ExtinctSounds is ERC721, ERC721URIStorage, Ownable {
     {
         return super.tokenURI(tokenId);
     }
+
+    function totalMints() public view returns (uint256) {
+        return tokenCounter;
+    }
+
 }

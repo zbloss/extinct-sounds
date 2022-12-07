@@ -27,15 +27,15 @@
     "absolutePath": "/Users/zbloss/.brownie/packages/OpenZeppelin/openzeppelin-contracts@4.8.0/contracts/utils/introspection/IERC165.sol",
     "exportedSymbols": {
       "IERC165": [
-        2012
+        2021
       ]
     },
-    "id": 2013,
+    "id": 2022,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2002,
+        "id": 2011,
         "literals": [
           "solidity",
           "^",
@@ -52,15 +52,15 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "documentation": {
-          "id": 2003,
+          "id": 2012,
           "nodeType": "StructuredDocumentation",
           "src": "125:279:10",
           "text": " @dev Interface of the ERC165 standard, as defined in the\n https://eips.ethereum.org/EIPS/eip-165[EIP].\n Implementers can declare support of contract interfaces, which can then be\n queried by others ({ERC165Checker}).\n For an implementation, see {ERC165}."
         },
         "fullyImplemented": false,
-        "id": 2012,
+        "id": 2021,
         "linearizedBaseContracts": [
-          2012
+          2021
         ],
         "name": "IERC165",
         "nameLocation": "415:7:10",
@@ -68,13 +68,13 @@
         "nodes": [
           {
             "documentation": {
-              "id": 2004,
+              "id": 2013,
               "nodeType": "StructuredDocumentation",
               "src": "429:340:10",
               "text": " @dev Returns true if this contract implements the interface defined by\n `interfaceId`. See the corresponding\n https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section]\n to learn more about how these ids are created.\n This function call must use less than 30 000 gas."
             },
             "functionSelector": "01ffc9a7",
-            "id": 2011,
+            "id": 2020,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -82,17 +82,17 @@
             "nameLocation": "783:17:10",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2007,
+              "id": 2016,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2006,
+                  "id": 2015,
                   "mutability": "mutable",
                   "name": "interfaceId",
                   "nameLocation": "808:11:10",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2011,
+                  "scope": 2020,
                   "src": "801:18:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -101,7 +101,7 @@
                     "typeString": "bytes4"
                   },
                   "typeName": {
-                    "id": 2005,
+                    "id": 2014,
                     "name": "bytes4",
                     "nodeType": "ElementaryTypeName",
                     "src": "801:6:10",
@@ -116,17 +116,17 @@
               "src": "800:20:10"
             },
             "returnParameters": {
-              "id": 2010,
+              "id": 2019,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2009,
+                  "id": 2018,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2011,
+                  "scope": 2020,
                   "src": "844:4:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -135,7 +135,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 2008,
+                    "id": 2017,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "844:4:10",
@@ -149,14 +149,14 @@
               ],
               "src": "843:6:10"
             },
-            "scope": 2012,
+            "scope": 2021,
             "src": "774:76:10",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 2013,
+        "scope": 2022,
         "src": "405:447:10",
         "usedErrors": []
       }

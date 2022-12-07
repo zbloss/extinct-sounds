@@ -33,7 +33,7 @@ const MintNFT = (params) => {
         address: contractAddress,
         abi: contractAbi,
         functionName: 'safeMint',
-        args: [address, tokenURI]
+        args: [tokenURI]
     })
     const { data, write, isIdle, isError, isLoading, isSuccess } = useContractWrite(config)
     

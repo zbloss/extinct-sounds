@@ -1,0 +1,30 @@
+{
+  "contracts": {
+    "ExtinctSounds": "fb040b9fdc7963eab7e7b54032efc735fc759f5f",
+    "OpenZeppelin/openzeppelin-contracts@4.8.0/ERC721": "64b52256f625d8f39e5c462725250f4f69cb95e5",
+    "OpenZeppelin/openzeppelin-contracts@4.8.0/Strings": "1ce946f6a4eaa185320328620ccf999b9e86db7c"
+  },
+  "tests": {
+    "tests/brownie/test_contract_address.py": {
+      "coverage": false,
+      "isolated": [
+        "ExtinctSounds",
+        "OpenZeppelin/openzeppelin-contracts@4.8.0/ERC721"
+      ],
+      "results": ".",
+      "sha1": "197ca0a281d1738da239c4f2b602fbd89470438b",
+      "txhash": []
+    },
+    "tests/brownie/test_erc721.py": {
+      "coverage": false,
+      "isolated": [
+        "ExtinctSounds",
+        "OpenZeppelin/openzeppelin-contracts@4.8.0/ERC721"
+      ],
+      "results": "....",
+      "sha1": "edf73326642df5ea414b83b2d0662ad40855f7b2",
+      "txhash": []
+    }
+  },
+  "tx": {}
+}

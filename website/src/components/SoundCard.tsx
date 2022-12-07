@@ -29,7 +29,7 @@ const SoundCard = (params) => {
     const [showDetails, setShowDetails] = useState<boolean>(false);
     const [shareButtonContent, setShareButtonContent] = useState<string>("Share");
 
-    const tooManyGuesses = guesses?.length >= MaxNumberOfGuesses();
+    const tooManyGuesses = guesses?.length > MaxNumberOfGuesses();
     const guessesRemaining = MaxNumberOfGuesses() - guesses.length;
 
     const appendGuess = () => {
@@ -269,7 +269,7 @@ https://extinct-sounds.com`
                                 {guessField(guessCorrect)}
                             </Grid>
                             <Grid item xs={12} sx={{ mb: 2 }}>
-                                {guessesRemaining > 0
+                                {guessesRemaining >= 0
                                     ? <Typography>{guessesRemaining} Guesses Left </Typography> 
                                     : <Typography>Sorry, you're out of guesses, please try again later. <br />The next Extinct-Sound is available in X time</Typography> 
                                 }
