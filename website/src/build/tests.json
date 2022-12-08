@@ -1,8 +1,12 @@
 {
   "contracts": {
-    "ExtinctSounds": "fb040b9fdc7963eab7e7b54032efc735fc759f5f",
+    "ExtinctSounds": "8b742415f56888256a341bc1deb32b516f994e02",
     "OpenZeppelin/openzeppelin-contracts@4.8.0/ERC721": "64b52256f625d8f39e5c462725250f4f69cb95e5",
-    "OpenZeppelin/openzeppelin-contracts@4.8.0/Strings": "1ce946f6a4eaa185320328620ccf999b9e86db7c"
+    "OpenZeppelin/openzeppelin-contracts@4.8.0/EnumerableSet": "1ce946f6a4eaa185320328620ccf999b9e86db7c",
+    "OpenZeppelin/openzeppelin-contracts@4.8.0/Strings": "1ce946f6a4eaa185320328620ccf999b9e86db7c",
+    "OperatorFilterRegistry": "34944c666047b9889395e35803bb70fea79f8fa0",
+    "OperatorFilterRegistryErrorsAndEvents": "73df0a6f5d0123eb2b2db0faf62b602aa77c123a",
+    "OwnedRegistrant": "97a5b4ca5bcc45ce6b3c8f9e857ea0acfe587e33"
   },
   "tests": {
     "tests/brownie/test_contract_address.py": {

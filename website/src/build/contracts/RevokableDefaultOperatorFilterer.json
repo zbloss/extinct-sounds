@@ -1,0 +1,430 @@
+{
+  "abi": [
+    {
+      "inputs": [],
+      "name": "InitialRegistryAddressCannotBeZeroAddress",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OnlyOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        }
+      ],
+      "name": "OperatorNotAllowed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "RegistryHasBeenRevoked",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "isOperatorFilterRegistryRevoked",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "operatorFilterRegistry",
+      "outputs": [
+        {
+          "internalType": "contract IOperatorFilterRegistry",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "revokeOperatorFilterRegistry",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newRegistry",
+          "type": "address"
+        }
+      ],
+      "name": "updateOperatorFilterRegistryAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "allSourcePaths": {
+    "21": "contracts/RevokableDefaultOperatorFilterer.sol",
+    "22": "contracts/RevokableOperatorFilterer.sol",
+    "23": "contracts/UpdatableOperatorFilterer.sol"
+  },
+  "ast": {
+    "absolutePath": "contracts/RevokableDefaultOperatorFilterer.sol",
+    "exportedSymbols": {
+      "RevokableDefaultOperatorFilterer": [
+        2366
+      ],
+      "RevokableOperatorFilterer": [
+        2496
+      ]
+    },
+    "id": 2367,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2345,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".13"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:24:21"
+      },
+      {
+        "absolutePath": "contracts/RevokableOperatorFilterer.sol",
+        "file": "./RevokableOperatorFilterer.sol",
+        "id": 2347,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 2367,
+        "sourceUnit": 2497,
+        "src": "58:74:21",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 2346,
+              "name": "RevokableOperatorFilterer",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 2496,
+              "src": "66:25:21",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "abstract": true,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 2349,
+              "name": "RevokableOperatorFilterer",
+              "nameLocations": [
+                "534:25:21"
+              ],
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 2496,
+              "src": "534:25:21"
+            },
+            "id": 2350,
+            "nodeType": "InheritanceSpecifier",
+            "src": "534:25:21"
+          }
+        ],
+        "canonicalName": "RevokableDefaultOperatorFilterer",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 2348,
+          "nodeType": "StructuredDocumentation",
+          "src": "134:345:21",
+          "text": " @title  RevokableDefaultOperatorFilterer\n @notice Inherits from RevokableOperatorFilterer and automatically subscribes to the default OpenSea subscription.\n         Note that OpenSea will disable creator fee enforcement if filtered operators begin fulfilling orders\n         on-chain, eg, if the registry is revoked or bypassed."
+        },
+        "fullyImplemented": false,
+        "id": 2366,
+        "linearizedBaseContracts": [
+          2366,
+          2496,
+          2686
+        ],
+        "name": "RevokableDefaultOperatorFilterer",
+        "nameLocation": "498:32:21",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": true,
+            "id": 2356,
+            "mutability": "constant",
+            "name": "DEFAULT_SUBSCRIPTION",
+            "nameLocation": "583:20:21",
+            "nodeType": "VariableDeclaration",
+            "scope": 2366,
+            "src": "566:91:21",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 2351,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "566:7:21",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": {
+              "arguments": [
+                {
+                  "hexValue": "307833636336436464413736306237396241666130386446343145434641323234663831306443654236",
+                  "id": 2354,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "kind": "number",
+                  "lValueRequested": false,
+                  "nodeType": "Literal",
+                  "src": "614:42:21",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "value": "0x3cc6CddA760b79bAfa08dF41ECFA224f810dCeB6"
+                }
+              ],
+              "expression": {
+                "argumentTypes": [
+                  {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                ],
+                "id": 2353,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "lValueRequested": false,
+                "nodeType": "ElementaryTypeNameExpression",
+                "src": "606:7:21",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_type$_t_address_$",
+                  "typeString": "type(address)"
+                },
+                "typeName": {
+                  "id": 2352,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "606:7:21",
+                  "typeDescriptions": {}
+                }
+              },
+              "id": 2355,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "typeConversion",
+              "lValueRequested": false,
+              "nameLocations": [],
+              "names": [],
+              "nodeType": "FunctionCall",
+              "src": "606:51:21",
+              "tryCall": false,
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 2364,
+              "nodeType": "Block",
+              "src": "776:2:21",
+              "statements": []
+            },
+            "id": 2365,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [
+              {
+                "arguments": [
+                  {
+                    "hexValue": "307830303030303030303030303041416542364437363730453532324137313830363733333363643445",
+                    "id": 2359,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "number",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "704:42:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    },
+                    "value": "0x000000000000AAeB6D7670E522A718067333cd4E"
+                  },
+                  {
+                    "id": 2360,
+                    "name": "DEFAULT_SUBSCRIPTION",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 2356,
+                    "src": "748:20:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  {
+                    "hexValue": "74727565",
+                    "id": 2361,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "bool",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "770:4:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "value": "true"
+                  }
+                ],
+                "id": 2362,
+                "kind": "baseConstructorSpecifier",
+                "modifierName": {
+                  "id": 2358,
+                  "name": "RevokableOperatorFilterer",
+                  "nameLocations": [
+                    "678:25:21"
+                  ],
+                  "nodeType": "IdentifierPath",
+                  "referencedDeclaration": 2496,
+                  "src": "678:25:21"
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "678:97:21"
+              }
+            ],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2357,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "675:2:21"
+            },
+            "returnParameters": {
+              "id": 2363,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "776:0:21"
+            },
+            "scope": 2366,
+            "src": "664:114:21",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "internal"
+          }
+        ],
+        "scope": 2367,
+        "src": "480:300:21",
+        "usedErrors": [
+          2377,
+          2379,
+          2505,
+          2507
+        ]
+      }
+    ],
+    "src": "32:749:21"
+  },
+  "bytecode": "",
+  "bytecodeSha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+  "compiler": {
+    "evm_version": "istanbul",
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "version": "0.8.17+commit.8df45f5f"
+  },
+  "contractName": "RevokableDefaultOperatorFilterer",
+  "coverageMap": {
+    "branches": {},
+    "statements": {}
+  },
+  "dependencies": [
+    "RevokableOperatorFilterer",
+    "UpdatableOperatorFilterer"
+  ],
+  "deployedBytecode": "",
+  "deployedSourceMap": "",
+  "language": "Solidity",
+  "natspec": {
+    "kind": "dev",
+    "methods": {
+      "owner()": {
+        "details": "assume the contract has an owner, but leave specific Ownable implementation up to inheriting contract"
+      },
+      "revokeOperatorFilterRegistry()": {
+        "notice": "Revoke the OperatorFilterRegistry address, permanently bypassing checks. OnlyOwner."
+      },
+      "updateOperatorFilterRegistryAddress(address)": {
+        "notice": "Update the address that the contract will make OperatorFilter checks against. When set to the zero         address, checks will be permanently bypassed, and the address cannot be updated again. OnlyOwner."
+      }
+    },
+    "notice": "Inherits from RevokableOperatorFilterer and automatically subscribes to the default OpenSea subscription.         Note that OpenSea will disable creator fee enforcement if filtered operators begin fulfilling orders         on-chain, eg, if the registry is revoked or bypassed.",
+    "title": "RevokableDefaultOperatorFilterer",
+    "version": 1
+  },
+  "offset": [
+    480,
+    780
+  ],
+  "opcodes": "",
+  "pcMap": {},
+  "sha1": "91937d8933c98c473c00414f79fc162a90716c42",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.13;\n\nimport {RevokableOperatorFilterer} from \"./RevokableOperatorFilterer.sol\";\n\n/**\n * @title  RevokableDefaultOperatorFilterer\n * @notice Inherits from RevokableOperatorFilterer and automatically subscribes to the default OpenSea subscription.\n *         Note that OpenSea will disable creator fee enforcement if filtered operators begin fulfilling orders\n *         on-chain, eg, if the registry is revoked or bypassed.\n */\nabstract contract RevokableDefaultOperatorFilterer is RevokableOperatorFilterer {\n    address constant DEFAULT_SUBSCRIPTION = address(0x3cc6CddA760b79bAfa08dF41ECFA224f810dCeB6);\n\n    constructor() RevokableOperatorFilterer(0x000000000000AAeB6D7670E522A718067333cd4E, DEFAULT_SUBSCRIPTION, true) {}\n}\n",
+  "sourceMap": "",
+  "sourcePath": "contracts/RevokableDefaultOperatorFilterer.sol",
+  "type": "contract"
+}
