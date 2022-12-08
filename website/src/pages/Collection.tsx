@@ -125,7 +125,7 @@ const Collection = () => {
             GetTokenMetadata(AddIPFSProxy(uri))
                 .then((e) => {
                     tmpCards.push(
-                        <Grid item xs={12} sm={12} md={4} key={`nft-card-${index}`}>
+                        <Grid item xs={12} sm={12} md={3} key={`nft-card-${index}`}>
                             <NFTCard metadata={e} openseaUrl={openseaUrl} />
                         </Grid>
                     );
@@ -138,7 +138,7 @@ const Collection = () => {
     }, [address, ensName, userTokenURIs, openseaUrl])
  
     return (<>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} direction="column" alignItems="center">
             <Grid item xs={12} sx={{ mt: 4, ml: 8, mr: 8 }}>
                 <Card sx={{ mt: 4 }}>
                     <CardContent sx={{ justifyContent:'center' }}>
@@ -152,7 +152,7 @@ const Collection = () => {
             </Grid>
         </Grid>
 
-        <Grid container spacing={2} sx={{ mt: 4, ml: 8, mr: 8 }}>
+        <Grid container spacing={4} sx={{ mt: 4, mb: 8, paddingLeft: '10px', paddingRight: '10px' }}>
             {cards}
         </Grid>
 

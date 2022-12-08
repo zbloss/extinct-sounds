@@ -204,8 +204,8 @@ https://extinct-sounds.com`
         <Grid
             container
             spacing={2}
-            direction="column"
-            alignItems="center"
+            // direction="column"
+            // alignItems="center"            
         >
             <Grid item xs={12}>
                 <Card>
@@ -218,7 +218,7 @@ https://extinct-sounds.com`
                         >
 
                         {guessCorrect && !tooManyGuesses ?
-                            <Grid item xs={12} sx={{ml: 1, mr: 1}}>
+                            <Grid item xs={12} >
                                 <Typography variant="h3" color="honeydew">
                                     {metadata ? metadata.name : <></>}
                                 </Typography> 
@@ -233,9 +233,9 @@ https://extinct-sounds.com`
                             }
                         </Grid>
                         {guessCorrect && !tooManyGuesses ? 
-                            <Grid item xs={12} sx={{ ml: 2, mr: 2 }}>
+                            <Grid item xs={12} >
                                 {showDetails ? 
-                                    <CardContent sx={{ direction: "column", alignItems: "center", justifyContent:'center' }}>         
+                                    <CardContent >         
                                         <Typography variant="body2">
                                             {metadata ? metadata.description : <></>}
                                     

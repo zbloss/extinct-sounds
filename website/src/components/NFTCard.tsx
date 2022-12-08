@@ -42,7 +42,6 @@ const NFTCard = (params) => {
 
     // @ts-ignore
     const shareButton = async (params) => {
-        console.log("clicked share:", params)
 
         const numberOfGuesses = Number(params.attributes[0].value)
         const maxGuesses = Number(params.attributes[0].max_value)
@@ -77,7 +76,7 @@ https://extinct-sounds.com`
                 title={metadata.name} 
                 subheader={subheader} 
                 action={
-                    <Typography>
+                    <Typography sx={{ mr: 1 }}>
                       {metadata.attributes[0].value} / {metadata.attributes[0].max_value}
                     </Typography>
                 }    
@@ -96,8 +95,6 @@ https://extinct-sounds.com`
                 <IconButton aria-label="opensea" href={params.openseaUrl} target="_blank">
                     <StorefrontIcon />
                 </IconButton>
-
-                
 
                 <ExpandMore
                     expand={expanded}
