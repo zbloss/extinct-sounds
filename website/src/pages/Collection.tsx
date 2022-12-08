@@ -54,7 +54,7 @@ const Collection = () => {
 
     const openseaUrl = chain?.id === 1 ? 
         "https://opensea.io/collection/extinctsounds" : 
-        "https://testnets.opensea.io/collection/extinctsounds-v3"
+        "https://testnets.opensea.io/collection/extinctsounds-v4"
 
     useContractRead({
         ...combinedContract,
