@@ -25,7 +25,7 @@ class GenerateNFTs(FlowSpec):
         help="Filepath to a JSON file containing the metadata you want to upload.",
     )
     video_output_directory = Parameter(
-        "video_output_directory", type=str, required=False, default="./artifacts/mp4"
+        "video_output_directory", type=str, required=False, default="./artifacts/video"
     )
     output_nft_mapping_filepath = Parameter(
         "output_nft_mapping_filepath", type=str, required=False, default="/Users/zbloss/Projects/extinct-sounds/website/src/nfts.json"
@@ -67,8 +67,9 @@ class GenerateNFTs(FlowSpec):
             and audio is not None
         ):
             output_file = os.path.join(self.video_output_directory, f"{self.input}.mp4")
-            self.mp4_filepath = add_drawing_animation(image, audio, output_file)
-            self.video_mapping[self.input] = {"video": self.mp4_filepath}
+            self.video_filepath = add_drawing_animation(image, audio, output_file)
+            print(f'Created video for: {self.input}')
+            self.video_mapping[self.input] = {"video": self.video_filepath}
 
         self.next(self.join)
 
@@ -143,44 +144,53 @@ class GenerateNFTs(FlowSpec):
         for nft_id in self.combined_artifacts:
             meta = self.combined_artifacts[nft_id]
             if isinstance(meta, dict) and required_keys.issubset(meta.keys()):
-                # upload metadata
-                image_response = self.infura.upload_file(meta["image"], as_bytes=True)
-                audio_response = self.infura.upload_file(meta["audio"], as_bytes=True)
-                video_response = self.infura.upload_file(meta["video"], as_bytes=True)
-
-                if image_response is None:
-                    time.sleep(3)
+                if (
+                    meta["name"] != '' and \
+                    meta["description"] != '' and \
+                    meta["image"] != '' and \
+                    meta["audio"] != '' and \
+                    meta["video"] != ''
+                ):
+                    # upload metadata
                     image_response = self.infura.upload_file(meta["image"], as_bytes=True)
-
-                if audio_response is None:
-                    time.sleep(3)
                     audio_response = self.infura.upload_file(meta["audio"], as_bytes=True)
-
-                if video_response is None:
-                    time.sleep(3)
                     video_response = self.infura.upload_file(meta["video"], as_bytes=True)
 
-                try:
-                    image_cid = image_response.Hash
-                    audio_cid = audio_response.Hash
-                    video_cid = video_response.Hash
+                    if image_response is None:
+                        time.sleep(3)
+                        image_response = self.infura.upload_file(meta["image"], as_bytes=True)
 
-                    metadata = [
-                        Metadata(
-                            name=meta["name"],
-                            description=meta["description"],
-                            image=f"ipfs://{image_cid}",
-                            audio=f"ipfs://{audio_cid}",
-                            attributes=[Attribute(trait_type="guesses", value=guess)],
-                            external_url=f"ipfs://{video_cid}",
-                            author=author,
-                            info=info_description,
-                        ).dict()
-                        for guess in range(1, 7)
-                    ]
-                    all_metadata[nft_id] = metadata
-                except:
-                    pass
+                    if audio_response is None:
+                        time.sleep(3)
+                        audio_response = self.infura.upload_file(meta["audio"], as_bytes=True)
+
+                    if video_response is None:
+                        time.sleep(3)
+                        video_response = self.infura.upload_file(meta["video"], as_bytes=True)
+
+                    try:
+                        image_cid = image_response.Hash
+                        audio_cid = audio_response.Hash
+                        video_cid = video_response.Hash
+
+                        metadata = [
+                            Metadata(
+                                name=meta["name"],
+                                description=meta["description"],
+                                image=f"ipfs://{image_cid}",
+                                audio=f"ipfs://{audio_cid}",
+                                attributes=[Attribute(trait_type="guesses", value=guess)],
+                                external_url=f"ipfs://{video_cid}",
+                                author=author,
+                                info=info_description,
+                            ).dict()
+                            for guess in range(1, 7)
+                        ]
+                        all_metadata[nft_id] = metadata
+                        print(f"Successfully uploaded: {nft_id} metadata")
+                    except Exception as e:
+                        print(f"Failed to upload metadata for nft_id: {nft_id}")
+                        print(f"Associated Metadata:", meta)
 
         self.metadata = all_metadata
         self.next(self.upload_nfts)

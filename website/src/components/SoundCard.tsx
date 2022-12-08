@@ -17,7 +17,7 @@ const SoundCard = (params) => {
     const videoUrl = params.metadata?.animation_url;
 
     const chosenNFT = params.chosenNFT;
-    const correctAnswer = metadata?.name.toLowerCase();
+    const correctAnswer = metadata?.name.toLowerCase().replace(/[^\w\s]/gi, ' ');
     const greenBlock = "🟩 " 
     const blackBlock = "⬛ "
     const redBlock = "🟥 " 
@@ -29,7 +29,7 @@ const SoundCard = (params) => {
     const [showDetails, setShowDetails] = useState<boolean>(false);
     const [shareButtonContent, setShareButtonContent] = useState<string>("Share");
 
-    const tooManyGuesses = guesses?.length >= MaxNumberOfGuesses();
+    const tooManyGuesses = guesses?.length > MaxNumberOfGuesses();
     const guessesRemaining = MaxNumberOfGuesses() - guesses.length;
 
     const appendGuess = () => {
@@ -46,31 +46,32 @@ const SoundCard = (params) => {
         if(guessCorrect) {
             return (
                 <Card sx={{ display: 'flex', minWidth: 300 }}>
-                {/* @ts-ignore */}
-                <CardMedia
-                    component="video"
-                    sx={{ mb: 2, mt: 2 }}
-                    src={videoUrl}
-                    alt="The extinct-sounds video of the day."
-                    className='audio-element'
-                    controls={true}
+                    {/* @ts-ignore */}
+                    <CardMedia
+                        component="video"
+                        sx={{ mb: 2, mt: 2 }}
+                        src={videoUrl}
+                        alt="The extinct-sounds video of the day."
+                        className='video-element'
+                        controls={true}
                     />
-            </Card>
+                </Card>
+            )
+        } else {
+            return (
+                <Card sx={{ display: 'flex', minWidth: 300 }}>
+                    {/* @ts-ignore */}
+                    <CardMedia
+                        component="audio"
+                        sx={{ mb: 2, mt: 2 }}
+                        src={audioUrl}
+                        alt="The extinct-sounds of the day."
+                        className='audio-element'
+                        controls={true}
+                    />
+                </Card>
             )
         }
-        return (
-            <Card sx={{ display: 'flex', minWidth: 300 }}>
-                {/* @ts-ignore */}
-                <CardMedia
-                    component="audio"
-                    sx={{ mb: 2, mt: 2 }}
-                    src={audioUrl}
-                    alt="The extinct-sounds of the day."
-                    className='audio-element'
-                    controls={true}
-                />
-            </Card>
-        )
     }
 
     // @ts-ignore
@@ -78,6 +79,8 @@ const SoundCard = (params) => {
 
         // @ts-ignore
         if (guesses.slice(-1)[0] === guess.toLowerCase()) {
+            alert("You've already tried that guess!")
+            setGuess('')
             return true
         } else {
             return false
@@ -87,12 +90,10 @@ const SoundCard = (params) => {
     // @ts-ignore
     const checkIfGuessIsCorrect = (list_of_guesses) => {
         if (list_of_guesses.length > 0) {
-
             let distance = stringSimilarity.compareTwoStrings(
                 correctAnswer, 
                 list_of_guesses[list_of_guesses.length - 1]
             )
-
             if (distance >= GuessThreshold()) {
                 setGuessCorrect(true)
                 return true
@@ -189,7 +190,7 @@ https://extinct-sounds.com`
     const changeButtonContent = () => {
         setShareButtonContent("Copied")
     }
-        
+    
     useEffect(() => {
         checkIfGuessIsCorrect(guesses);
 
@@ -203,8 +204,8 @@ https://extinct-sounds.com`
         <Grid
             container
             spacing={2}
-            direction="column"
-            alignItems="center"
+            // direction="column"
+            // alignItems="center"            
         >
             <Grid item xs={12}>
                 <Card>
@@ -217,7 +218,7 @@ https://extinct-sounds.com`
                         >
 
                         {guessCorrect && !tooManyGuesses ?
-                            <Grid item xs={12} sx={{ml: 1, mr: 1}}>
+                            <Grid item xs={12} >
                                 <Typography variant="h3" color="honeydew">
                                     {metadata ? metadata.name : <></>}
                                 </Typography> 
@@ -232,9 +233,9 @@ https://extinct-sounds.com`
                             }
                         </Grid>
                         {guessCorrect && !tooManyGuesses ? 
-                            <Grid item xs={12} sx={{ ml: 2, mr: 2 }}>
+                            <Grid item xs={12} >
                                 {showDetails ? 
-                                    <CardContent sx={{ direction: "column", alignItems: "center", justifyContent:'center' }}>         
+                                    <CardContent >         
                                         <Typography variant="body2">
                                             {metadata ? metadata.description : <></>}
                                     
@@ -270,7 +271,7 @@ https://extinct-sounds.com`
                             <Grid item xs={12} sx={{ mb: 2 }}>
                                 {guessesRemaining > 0
                                     ? <Typography>{guessesRemaining} Guesses Left </Typography> 
-                                    : <Typography>Sorry, you're out of guesses, please try again later. <br />The next Extinct-Sound is available in X time</Typography> 
+                                    : <Typography sx={{ ml: 4, mr: 4 }}>Sorry, you're out of guesses, please try again later. <br />The next Extinct-Sound is available in X time</Typography> 
                                 }
                             </Grid>
 

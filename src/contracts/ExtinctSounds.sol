@@ -4,9 +4,11 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import {DefaultOperatorFilterer} from "./DefaultOperatorFilterer.sol";
+
 
 /// @custom:security-contact zacharybloss@gmail.com
-contract ExtinctSounds is ERC721, ERC721URIStorage, Ownable {
+contract ExtinctSounds is ERC721, ERC721URIStorage, DefaultOperatorFilterer, Ownable {
 
     uint256 public tokenCounter;
     bool public initialized = false;
@@ -15,12 +17,14 @@ contract ExtinctSounds is ERC721, ERC721URIStorage, Ownable {
 
     constructor() ERC721("ExtinctSounds", "EXS") {
         tokenCounter = 0;
+        initialized = true;
     }
 
-    function safeMint(address to, string memory uri) public onlyOwner {
+    function safeMint(string memory uri) public {
         uint256 tokenId = tokenCounter;
-        _safeMint(to, tokenId);
+        _safeMint(msg.sender, tokenId);
         _setTokenURI(tokenId, uri);
+        // approve(msg.sender, tokenId);
         tokenCounter = tokenCounter + 1;
         emit NFTMinted(msg.sender, uri, tokenId);
 
@@ -40,4 +44,33 @@ contract ExtinctSounds is ERC721, ERC721URIStorage, Ownable {
     {
         return super.tokenURI(tokenId);
     }
+
+    function totalMints() public view returns (uint256) {
+        return tokenCounter;
+    }
+
+    function setApprovalForAll(address operator, bool approved) public override onlyAllowedOperatorApproval(operator) {
+        super.setApprovalForAll(operator, approved);
+    }
+
+    function approve(address operator, uint256 tokenId) public override onlyAllowedOperatorApproval(operator) {
+        super.approve(operator, tokenId);
+    }
+
+    function transferFrom(address from, address to, uint256 tokenId) public override onlyAllowedOperator(from) {
+        super.transferFrom(from, to, tokenId);
+    }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId) public override onlyAllowedOperator(from) {
+        super.safeTransferFrom(from, to, tokenId);
+    }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data)
+        public
+        override
+        onlyAllowedOperator(from)
+    {
+        super.safeTransferFrom(from, to, tokenId, data);
+    }
+
 }

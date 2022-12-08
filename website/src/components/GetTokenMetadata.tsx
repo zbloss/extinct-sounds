@@ -1,6 +1,7 @@
 import AddIPFSProxy from "./AddIPFSProxy";
 
 const GetTokenMetadata = async (tokenURI: string) => {
+    
     const response = await fetch(tokenURI)
 
     const ipfsContent = await response.json()
