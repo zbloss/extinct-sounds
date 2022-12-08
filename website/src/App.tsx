@@ -48,10 +48,9 @@ function App() {
 
         <Routes>
           {/* @ts-ignore */}
-          <Route path="/" element={<Home />}></Route>
-
-          {/* @ts-ignore */}
           <Route path="/collection" element={<Collection />}></Route>
+          {/* @ts-ignore */}
+          <Route path="/" element={<Home />}></Route>
           <Route path="*" element={<Error />}></Route>
         </Routes>   
       
