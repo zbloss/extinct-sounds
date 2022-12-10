@@ -18,7 +18,10 @@ const MintNFT = (params) => {
     const tokenURI = NFTMapping[chosenNFT][numberOfGuesses]
 
     const { chain } = useNetwork()
-    const contractChainId = chain?.id ? String(chain?.id) : "5"
+    // const contractChainId = chain?.id ? String(chain?.id) : "5"
+    const contractChainId = "5"
+    // console.log("contractChainId:", contractChainId)
+    // console.log("chains:", chains)
 
     // @ts-ignore
     const contractAddress = ContractMapping[contractChainId]["ExtinctSounds"][0]
