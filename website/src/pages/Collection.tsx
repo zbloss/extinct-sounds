@@ -144,8 +144,11 @@ const Collection = () => {
                     <CardContent sx={{ justifyContent:'center' }}>
                         <Typography sx={{ mb: 2 }} variant="h4" color="secondary">Welcome back <Box component="span" color="celadonblue">{welcomeName}!</Box>
                         </Typography>
-                        <Typography variant="h6" color="honeydew">
+                        <Typography variant="h5" color="honeydew">
                             Here you will find all of the NFTs you have previously redeemed.
+                        </Typography> 
+                        <Typography variant="body2" color="celadonblue">
+                            Note that your NFTs may take a while to load depending on network speeds. <br />Feel free to refresh the page after a few seconds if your collectibles have not loaded.
                         </Typography> 
                     </CardContent>
                 </Card>

@@ -250,7 +250,7 @@ https://extinct-sounds.com`
                                         <Grid item xs={12} sx={{ mb: 2 }}>
                                             <MintNFT chosenNFT={chosenNFT} numberOfGuesses={guesses?.length} />
                                         </Grid>
-                                        <Grid item xs={12}>
+                                        <Grid item xs={12} sx={{ mb: 2}}>
                                             <Button 
                                                 size="large" 
                                                 variant="contained"
@@ -258,6 +258,16 @@ https://extinct-sounds.com`
                                                 onClick={() => {changeButtonContent();GenerateClipboardContent()}}
                                             >
                                                 <Typography variant="h6">{shareButtonContent}</Typography>
+                                            </Button>
+                                        </Grid>
+                                        <Grid item xs={12} >
+                                            <Button 
+                                                size="large" 
+                                                variant="contained"
+                                                sx={{ backgroundColor: "celadonblue", color: "eerieblack" }}
+                                                href="/collections"
+                                            >
+                                                <Typography variant="h6">View Your Collection</Typography>
                                             </Button>
                                         </Grid>
                                     </Grid>

@@ -102,7 +102,7 @@ function Appbar(params) {
             variant="button"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
