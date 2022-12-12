@@ -265,7 +265,7 @@ https://extinct-sounds.com`
                                                 size="large" 
                                                 variant="contained"
                                                 sx={{ backgroundColor: "celadonblue", color: "eerieblack" }}
-                                                href="/collections"
+                                                href="/collection"
                                             >
                                                 <Typography variant="h6">View Your Collection</Typography>
                                             </Button>
