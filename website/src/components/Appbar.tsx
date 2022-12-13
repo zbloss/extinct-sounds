@@ -69,6 +69,11 @@ function Appbar(params) {
                 <MenuItem key="balance" onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">Balance: {balance ? balance : "Error"}</Typography>
                 </MenuItem>
+                <MenuItem key="referral-link">
+                  <Link href="https://coinbase.com/join/BLOSS_6?src=referral-link" target="_blank">
+                    <Typography textAlign="center">Need ETH?</Typography>
+                  </Link>
+                </MenuItem>
             </Menu>
           </Box>
         )

@@ -28,6 +28,10 @@ const SoundCard = (params) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [showDetails, setShowDetails] = useState<boolean>(false);
     const [shareButtonContent, setShareButtonContent] = useState<string>("Share");
+    const [days, setDays] = useState<number | undefined>();
+    const [hours, setHours] = useState<number | undefined>();
+    const [minutes, setMinutes] = useState<number | undefined>();
+    const [seconds, setSeconds] = useState<number | undefined>();
 
     const tooManyGuesses = guesses?.length > MaxNumberOfGuesses();
     const guessesRemaining = MaxNumberOfGuesses() - guesses.length;
@@ -190,6 +194,77 @@ https://extinct-sounds.com`
     const changeButtonContent = () => {
         setShareButtonContent("Copied")
     }
+
+    const timeUntilNextExtinctSound = () => {
+        return (
+            <Grid container spacing={2}>
+                
+                <Grid item xs={12} sx={{ mt: 2 }}>
+                    <Typography variant="body2">
+                        Time until the next Extinct-Sound is available...
+                    </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h5">
+                                {hours}
+                            </Typography>
+                            <Typography variant="body2">
+                                Hours
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs={1} sx={{ mt: 4 }}>
+                    <Typography variant="body2">:</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h5">
+                                {minutes}
+                            </Typography>
+                            <Typography variant="body2">
+                                Minutes
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
+
+                <Grid item xs={1} sx={{ mt: 4 }}>
+                    <Typography variant="body2">:</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h5">
+                                {seconds}
+                            </Typography>
+                            <Typography variant="body2">
+                                Seconds
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+        )
+    }
+
+    setInterval(() => {
+        const now = new Date().getTime();
+        const today = new Date()
+        const tomorrow = new Date(today)
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0,0,0,0);
+        const tomorrowTime = tomorrow.getTime()
+        const distance = tomorrowTime - now;
+        setDays(Math.floor(distance / (1000 * 60 * 60 * 24)));
+        setHours(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+        setMinutes(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+        setSeconds(Math.floor((distance % (1000 * 60)) / 1000));
+
+    }, 1000)
     
     useEffect(() => {
         checkIfGuessIsCorrect(guesses);
@@ -260,16 +335,6 @@ https://extinct-sounds.com`
                                                 <Typography variant="h6">{shareButtonContent}</Typography>
                                             </Button>
                                         </Grid>
-                                        <Grid item xs={12} >
-                                            <Button 
-                                                size="large" 
-                                                variant="contained"
-                                                sx={{ backgroundColor: "celadonblue", color: "eerieblack" }}
-                                                href="/collection"
-                                            >
-                                                <Typography variant="h6">View Your Collection</Typography>
-                                            </Button>
-                                        </Grid>
                                     </Grid>
                                 </CardContent>
                                 
@@ -281,8 +346,11 @@ https://extinct-sounds.com`
                             <Grid item xs={12} sx={{ mb: 2 }}>
                                 {guessesRemaining > 0
                                     ? <Typography>{guessesRemaining} Guesses Left </Typography> 
-                                    : <Typography sx={{ ml: 4, mr: 4 }}>Sorry, you're out of guesses, please try again later. <br />The next Extinct-Sound is available in X time</Typography> 
+                                    : <Typography sx={{ ml: 4, mr: 4 }}>Sorry, you're out of guesses, please try again later.</Typography> 
                                 }
+                            </Grid>
+                            <Grid item xs={12}>
+                                {timeUntilNextExtinctSound()}
                             </Grid>
 
                             {guesses?.map((v, index) => {

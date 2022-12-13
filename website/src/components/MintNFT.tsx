@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Link, Grid, Typography } from '@mui/material';
 import ExtinctSoundsABI from '../build/contracts/ExtinctSounds.json';
 import ContractMapping from '../build/deployments/map.json';
-import { useContractWrite, usePrepareContractWrite, useNetwork, useAccount } from 'wagmi';
+import { useContractWrite, usePrepareContractWrite, useNetwork, useAccount, useFeeData } from 'wagmi';
 import NFTMapping from '../nfts.json';
 import LoadingCircle from '../components/LoadingCircle';
 import DoneIcon from '@mui/icons-material/Done';
@@ -18,10 +18,7 @@ const MintNFT = (params) => {
     const tokenURI = NFTMapping[chosenNFT][numberOfGuesses]
 
     const { chain } = useNetwork()
-    // const contractChainId = chain?.id ? String(chain?.id) : "5"
-    const contractChainId = "5"
-    // console.log("contractChainId:", contractChainId)
-    // console.log("chains:", chains)
+    const contractChainId = chain?.id ? String(chain?.id) : "5"
 
     // @ts-ignore
     const contractAddress = ContractMapping[contractChainId]["ExtinctSounds"][0]
@@ -30,7 +27,7 @@ const MintNFT = (params) => {
     const [transactionHash, setTransactionHash] = useState<string | undefined>();
     const [transactionHashLink, setTransactionHashLink] = useState<string | undefined>();
 
-    const { address, isConnected } = useAccount()
+    const { address, isConnected } = useAccount();
 
     const { config } = usePrepareContractWrite({
         address: contractAddress,
@@ -39,6 +36,12 @@ const MintNFT = (params) => {
         args: [tokenURI]
     })
     const { data, write, isIdle, isError, isLoading, isSuccess } = useContractWrite(config)
+
+    const { data: feeData } = useFeeData({
+        formatUnits: 'ether',
+    });
+
+    console.log("feeData:", feeData)
     
     const buttonContent = () => {
         if (isIdle) {
@@ -113,9 +116,17 @@ const MintNFT = (params) => {
             }
         </Grid>
         <Grid item xs={12}>
+            <Link 
+                variant="caption" 
+                href="https://coinbase.com/join/BLOSS_6?src=referral-link" 
+                target="_blank"
+            >
+                Need Eth?
+            </Link>
+        </Grid>
+        <Grid item xs={12} sm={6}>
             {buttonContent()}
         </Grid>
-
         {transactionHashLink && transactionHash ? 
         <Grid item xs={12}>
             <Link 
