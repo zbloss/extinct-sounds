@@ -93,10 +93,10 @@ const MintNFT = (params) => {
 
         setTransactionHash(data?.hash)
 
-        if (chain?.name === 'homestead') {
-            setTransactionHashLink("https://etherscan.io/tx")
+        if (chain?.name === 'goerli') {
+            setTransactionHashLink("https://goerli.etherscan.io/tx")
         } else {
-            setTransactionHashLink(`https://${chain?.name}.etherscan.io/tx`)
+            setTransactionHashLink("https://etherscan.io/tx")
         }
 
     }, [data, chain])
