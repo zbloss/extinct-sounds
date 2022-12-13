@@ -4,8 +4,7 @@ import { infuraProvider } from 'wagmi/providers/infura'
 
 const WagmiChains = () => {
     const { chains, provider, webSocketProvider } = configureChains(
-        [chain.goerli, chain.mainnet],
-        // chain.mainnet
+        [chain.mainnet, chain.goerli],
         [
             infuraProvider({
                 // @ts-ignore
