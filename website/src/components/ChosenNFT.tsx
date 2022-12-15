@@ -2,7 +2,7 @@ import NFTMapping from '../nfts.json';
 
 const ChosenNFT = () => {
     
-    const start_date = "2022-12-14"
+    const start_date = "2022-12-13"
 
     // @ts-ignore
     const start_Date = new Date(start_date).toISOString().split('T')[0];
@@ -12,7 +12,7 @@ const ChosenNFT = () => {
     const difference_in_days = difference_in_time / (1000 * 3600 * 24)
     
     const chosenTokenId = String(difference_in_days).length === 1 ? `0${difference_in_days}` : String(difference_in_days)
-
+    console.log("chosenTokenId:", chosenTokenId)
     if (chosenTokenId in NFTMapping) {
         return chosenTokenId
     }
