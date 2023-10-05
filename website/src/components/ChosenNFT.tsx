@@ -2,7 +2,7 @@ import NFTMapping from '../nfts.json';
 
 const ChosenNFT = () => {
     
-    const start_date = "2023-10-6"
+    const start_date = "2023-10-06"
 
     // @ts-ignore
     const start_Date = new Date(start_date).toISOString().split('T')[0];
